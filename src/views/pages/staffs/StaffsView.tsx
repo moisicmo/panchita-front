@@ -7,7 +7,7 @@ import { StaffModel } from "@/models";
 
 export const UsersView = () => {
   const [openDialog, setopenDialog] = useState(false);
-  const [itemEdit, setItemEdit] = useState<StaffModel | null>(null);
+  const [itemEdit, setItemEdit] = useState<any>(null);
 
   /*CONTROLADOR DEL DIALOG PARA CREAR O EDITAR */
   const handleDialog = useCallback((value: boolean) => {
@@ -37,7 +37,7 @@ export const UsersView = () => {
         <CreateUser
           open={openDialog}
           handleClose={() => handleDialog(false)}
-          item={{ ...itemEdit, ...itemEdit?.user }}
+          item={itemEdit == null ? null : { ...itemEdit, ...itemEdit?.user }}
         />
       }
     </>

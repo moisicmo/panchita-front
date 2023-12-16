@@ -15,7 +15,7 @@ interface createProps {
 
 const formFields: FormStaffModel = {
   typeDocumentId: null,
-  identityCard: '',
+  numberDocument: '',
   name: '',
   lastName: '',
   email: '',
@@ -26,7 +26,7 @@ const formFields: FormStaffModel = {
 
 const formValidations: FormStaffValidations = {
   typeDocumentId: [(value: TypeDocumentModel) => value != null, 'Debe ingresar el tipo de documento'],
-  identityCard: [(value: string) => value.length >= 1, 'Debe ingresar el numero de carnet'],
+  numberDocument: [(value: string) => value.length >= 1, 'Debe ingresar el numero de documento'],
   name: [(value: string) => value.length >= 1, 'Debe ingresar el nombre'],
   lastName: [(value: string) => value.length >= 1, 'Debe ingresar el nombre'],
   email: [(value: string) => value.length >= 1, 'Debe ingresar el correo'],
@@ -44,10 +44,10 @@ export const CreateUser = (props: createProps) => {
 
   const [formSubmitted, setFormSubmitted] = useState(false);
   const {
-    typeDocumentId, identityCard, name, lastName, email, phone, roleId, branchOfficeIds,
+    typeDocumentId, numberDocument, name, lastName, email, phone, roleId, branchOfficeIds,
     onInputChange, isFormValid, onResetForm, onValueChange,
-    typeDocumentIdValid, identityCardValid, nameValid, lastNameValid, emailValid, phoneValid, roleIdValid, branchOfficeIdsValid,
-  } = useForm(item ?? formFields, formValidations);
+    typeDocumentIdValid, numberDocumentValid, nameValid, lastNameValid, emailValid, phoneValid, roleIdValid, branchOfficeIdsValid,
+  } = useForm(item == null ? formFields : item, formValidations);
 
   const sendSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -57,7 +57,7 @@ export const CreateUser = (props: createProps) => {
       postCreateStaff(
         {
           typeDocumentId: typeDocumentId.id,
-          identityCard: identityCard.trim(),
+          numberDocument: numberDocument.trim(),
           name: name.trim(),
           lastName: lastName.trim(),
           email: email.trim(),
@@ -69,7 +69,7 @@ export const CreateUser = (props: createProps) => {
       putUpdateStaff(item.id,
         {
           typeDocumentId: typeDocumentId.id,
-          identityCard: identityCard.trim(),
+          numberDocument: numberDocument.trim(),
           name: name.trim(),
           lastName: lastName.trim(),
           email: email.trim(),
@@ -165,7 +165,7 @@ export const CreateUser = (props: createProps) => {
         </ModalSelectComponent>
       }
       <Dialog open={open} onClose={handleClose} >
-        <DialogTitle>{item == null ? 'Nuevo Administrador' : `${item.user.name}`}</DialogTitle>
+        <DialogTitle>{item == null ? 'Nuevo Administrador' : `${item.name}`}</DialogTitle>
         <form onSubmit={sendSubmit}>
           <DialogContent sx={{ display: 'flex' }}>
             <Grid container>
@@ -178,15 +178,15 @@ export const CreateUser = (props: createProps) => {
                   helperText={formSubmitted ? typeDocumentIdValid : ''}
                 />
               </Grid>
-              <Grid item xs={12} sm={4} sx={{ padding: '5px' }}>
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                 <ComponentInput
                   type="text"
                   label="Número de carnet"
-                  name="identityCard"
-                  value={identityCard}
+                  name="numberDocument"
+                  value={numberDocument}
                   onChange={onInputChange}
-                  error={!!identityCardValid && formSubmitted}
-                  helperText={formSubmitted ? identityCardValid : ''}
+                  error={!!numberDocumentValid && formSubmitted}
+                  helperText={formSubmitted ? numberDocumentValid : ''}
                 />
               </Grid>
               <Grid item xs={12} sm={4} sx={{ padding: '5px' }}>

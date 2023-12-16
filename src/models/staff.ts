@@ -11,7 +11,7 @@ export interface StaffModel {
 /* FORM USER MODEL */
 export interface FormStaffModel {
   typeDocumentId: TypeDocumentModel | null,
-  identityCard: string,
+  numberDocument: string,
   name: string;
   lastName: string;
   email: string;
@@ -23,7 +23,7 @@ export interface FormStaffModel {
 /*FORM USER VALIDATIONS */
 export interface FormStaffValidations {
   typeDocumentId: [(value: TypeDocumentModel) => boolean, string];
-  identityCard: [(value: string) => boolean, string];
+  numberDocument: [(value: string) => boolean, string];
   name: [(value: string) => boolean, string];
   lastName: [(value: string) => boolean, string];
   email: [(value: string) => boolean, string];
