@@ -1,39 +1,39 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { coffeApi } from '@/services';
-import { setAddUnitMeasurement, setDeleteUnitMeasurement, setUnitMeasurements, setUpdateUnitMeasurement } from '@/store';
+import { setMeasurementUnits, setAddMeasurementUnit, setUpdateMeasurementUnit, setDeleteMeasurementUnit } from '@/store';
 import Swal from 'sweetalert2';
 
-export const useUnitMeasurementStore = () => {
-  const { unitMeasurements } = useSelector((state: any) => state.unitMeasurements);
+export const useMeasurementUnitStore = () => {
+  const { measurementUnits, } = useSelector((state: any) => state.measurementUnits);
   const dispatch = useDispatch();
 
-  const getUnitMeasurements = async () => {
-    const { data } = await coffeApi.get('/measurementUnit/');
+  const getMeasurementUnits = async () => {
+    const { data } = await coffeApi.get('/measurementUnit');
     console.log(data)
-    dispatch(setUnitMeasurements({ measurementUnits: data.measurementUnits }));
+    dispatch(setMeasurementUnits({ measurementUnits: data.measurementUnits }));
   }
-  const postCreateUnitMeasurement = async (body: object) => {
+  const postCreateMeasurementUnit = async (body: object) => {
     try {
       const { data } = await coffeApi.post('/measurementUnit/', body);
       console.log(data)
-      dispatch(setAddUnitMeasurement({ unitMeasurement: data.unitMeasurement }));
+      dispatch(setAddMeasurementUnit({ measurementUnit: data.measurementUnit }));
       Swal.fire('Unidad de medida creado correctamente', '', 'success');
     } catch (error: any) {
       Swal.fire('Oops ocurrio algo', error.response.data.errors[0].msg, 'error');
     }
   }
 
-  const putUpdateUnitMeasurement = async (id: string, body: object) => {
+  const putUpdateMeasurementUnit = async (id: string, body: object) => {
     try {
-      const { data } = await coffeApi.put(`/unitMeasurement/${id}`, body);
+      const { data } = await coffeApi.put(`/measurementUnit/${id}`, body);
       console.log(data)
-      dispatch(setUpdateUnitMeasurement({ unitMeasurement: data.unitMeasurement }));
+      dispatch(setUpdateMeasurementUnit({ measurementUnit: data.measurementUnit }));
       Swal.fire('Unidad de medida editado correctamente', '', 'success');
     } catch (error: any) {
       Swal.fire('Oops ocurrio algo', error.response.data.errors[0].msg, 'error');
     }
   }
-  const deleteUnitMeasurement = async (id: string) => {
+  const deleteMeasurementUnit = async (id: string) => {
     try {
       Swal.fire({
         title: '¿Estas seguro?',
@@ -46,9 +46,9 @@ export const useUnitMeasurementStore = () => {
         cancelButtonText: '¡No, cancelar!',
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const { data } = await coffeApi.delete(`/unitMeasurement/${id}`);
+          const { data } = await coffeApi.delete(`/measurementUnit/${id}`);
           console.log(data)
-          dispatch(setDeleteUnitMeasurement({ id }));
+          dispatch(setDeleteMeasurementUnit({ id }));
           Swal.fire(
             'Eliminado',
             'Unidad de medida eliminado correctamente',
@@ -72,11 +72,11 @@ export const useUnitMeasurementStore = () => {
 
   return {
     //* Propiedades
-    unitMeasurements,
+    measurementUnits,
     //* Métodos
-    getUnitMeasurements,
-    postCreateUnitMeasurement,
-    putUpdateUnitMeasurement,
-    deleteUnitMeasurement,
+    getMeasurementUnits,
+    postCreateMeasurementUnit,
+    putUpdateMeasurementUnit,
+    deleteMeasurementUnit,
   }
 }

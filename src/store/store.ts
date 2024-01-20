@@ -8,9 +8,10 @@ import {
   staffSlice,
   productSlice,
   categorySlice,
-  unitMeasurementSlice,
   orderSlice,
   branchOfficeSlice,
+  measurementUnitSlice,
+  reportSlice,
 
 } from '.';
 
@@ -24,9 +25,10 @@ export const store = configureStore({
     customers: customerSlice.reducer,
     products: productSlice.reducer,
     categories: categorySlice.reducer,
-    unitMeasurements: unitMeasurementSlice.reducer,
+    measurementUnits: measurementUnitSlice.reducer,
     kardexProducts: kardexProductSlice.reducer,
     orders: orderSlice.reducer,
+    reports: reportSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: false

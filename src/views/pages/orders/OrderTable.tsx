@@ -6,6 +6,8 @@ import { DeleteOutline, Download, EditOutlined, KeyboardArrowDownOutlined, Keybo
 import { IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { OutputTable } from ".";
+import { format } from "date-fns";
+import esES from 'date-fns/locale/es';
 
 interface tableProps {
   handleEdit?: (typeUser: OrderModel) => void;
@@ -22,7 +24,7 @@ export const OrderTable = (props: tableProps) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(limitInit);
   const [orderList, setOrderList] = useState<OrderModel[]>([]);
-  const [openIndex, setOpenIndex] = useState<string | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [query, setQuery] = useState<string>('');
 
   useEffect(() => {
@@ -31,7 +33,7 @@ export const OrderTable = (props: tableProps) => {
 
   useEffect(() => {
     const filtered = orders.filter((e: OrderModel) =>
-      e.warehouseId.name.toLowerCase().includes(query.toLowerCase())
+      e.branchOffice.name.toLowerCase().includes(query.toLowerCase())
     );
     const newList = applyPagination(
       query != '' ? filtered : orders,
@@ -56,6 +58,7 @@ export const OrderTable = (props: tableProps) => {
               <TableCell sx={{ fontWeight: 'bold' }}>Cliente</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Sucursal</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Productos</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Fecha</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Total</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Acciones</TableCell>
             </TableRow>
@@ -66,8 +69,8 @@ export const OrderTable = (props: tableProps) => {
                 <React.Fragment key={order.id} >
                   <TableRow >
                     <TableCell>{order.id}</TableCell>
-                    <TableCell>{order.customerId.name}</TableCell>
-                    <TableCell>{order.warehouseId.name}</TableCell>
+                    <TableCell>{order.customer.user.name}</TableCell>
+                    <TableCell>{order.branchOffice.name}</TableCell>
                     <TableCell>
                       <IconButton
                         aria-label="expand row"
@@ -77,7 +80,8 @@ export const OrderTable = (props: tableProps) => {
                         {openIndex == order.id ? <KeyboardArrowUpOutlined /> : <KeyboardArrowDownOutlined />}
                       </IconButton>
                     </TableCell>
-                    <TableCell>{order.total}</TableCell>
+                    <TableCell>{`${format(new Date(order.createdAt), 'dd MMMM yyyy', { locale: esES })}`}</TableCell>
+                    <TableCell>{order.amount}</TableCell>
                     <TableCell align="right">
                       <Stack
                         alignItems="center"

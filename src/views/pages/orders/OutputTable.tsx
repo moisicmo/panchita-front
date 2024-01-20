@@ -2,7 +2,7 @@ import { OrderModel, OutputModel } from "@/models";
 import { Collapse, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material"
 
 interface outputProps {
-  openIndex: string;
+  openIndex: number;
   order: OrderModel;
 }
 
@@ -31,8 +31,8 @@ export const OutputTable = (props: outputProps) => {
               {order.outputIds.map((outputs: OutputModel) => {
                 return (
                   <TableRow key={outputs.id}>
-                    <TableCell>{outputs.productStatusId.productId.code}</TableCell>
-                    <TableCell>{`${outputs.productStatusId.productId.name}-${outputs.productStatusId.name}`}</TableCell>
+                    <TableCell>{outputs.product.code}</TableCell>
+                    <TableCell>{`${outputs.product.name}-${outputs.product.name}`}</TableCell>
                     <TableCell>{outputs.price}</TableCell>
                     <TableCell>{outputs.quantity}</TableCell>
                     <TableCell>{outputs.price * outputs.quantity}</TableCell>

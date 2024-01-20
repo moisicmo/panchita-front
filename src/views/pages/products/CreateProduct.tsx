@@ -1,10 +1,10 @@
 import { ComponentInput, ComponentSelect, MaterialUISwitch, ModalSelectComponent } from "@/components"
 import { useForm, useProductStore } from "@/hooks";
-import { CategoryModel, FormProductModel, FormProductValidations, ProductModel, UnitMeasurementModel } from "@/models";
+import { CategoryModel, FormProductModel, FormProductValidations, MeasurementUnitModel, ProductModel } from "@/models";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Stack, Typography } from "@mui/material"
 import { FormEvent, useCallback, useState } from "react";
 import { CategoryTable } from "../categories";
-import { UnitMeasurementTable } from "../unitMeasurements";
+import { MeasurementUnitTable } from "../measurementUnits";
 
 interface createProps {
   open: boolean;
@@ -16,16 +16,16 @@ const formFields: FormProductModel = {
   name: '',
   price: 0,
   discount: 0,
-  typeDiscount: 'Monto',
+  typeDiscount: 'monto',
   categoryId: null,
   measurementUnitId: null,
 }
 
 const formValidations: FormProductValidations = {
   name: [(value: string) => value.length >= 1, 'Debe ingresar el nombre'],
-  price: [(value: number) => value != 0, 'Debe ingresar el nombre'],
-  categoryId: [(value: CategoryModel) => value != null, 'Debe ingresar el nombre'],
-  measurementUnitId: [(value: UnitMeasurementModel) => value != null, 'Debe ingresar el nombre'],
+  price: [(value: number) => value != 0, 'Debe ingresar un precio'],
+  categoryId: [(value: CategoryModel) => value != null, 'Debe ingresar una categoria'],
+  measurementUnitId: [(value: MeasurementUnitModel) => value != null, 'Debe ingresar una unidad de medida'],
 }
 
 export const CreateProduct = (props: createProps) => {
@@ -56,7 +56,9 @@ export const CreateProduct = (props: createProps) => {
           measurementUnitId: measurementUnitId.id,
           name: name.trim(),
           barCode: '0',
-          price: price
+          price: price,
+          discount: discount,
+          typeDiscount: typeDiscount,
         });
     } else {
       putUpdateProduct(item.id,
@@ -66,7 +68,9 @@ export const CreateProduct = (props: createProps) => {
           measurementUnitId: measurementUnitId.id,
           name: name.trim(),
           barCode: '0',
-          price: price
+          price: price,
+          discount: discount,
+          typeDiscount: typeDiscount,
         }
       );
     }
@@ -74,12 +78,12 @@ export const CreateProduct = (props: createProps) => {
     onResetForm();
   }
   const [modalCategory, setModalCategory] = useState(false);
-  const [modalUnitMeasurement, setModalUnitMeasurement] = useState(false);
+  const [modalMeasurementUnit, setModalMeasurementUnit] = useState(false);
   const handleModalCategory = useCallback((value: boolean) => {
     setModalCategory(value);
   }, []);
-  const handleModalUnitMeasurement = useCallback((value: boolean) => {
-    setModalUnitMeasurement(value);
+  const handleModalMeasurementUnit = useCallback((value: boolean) => {
+    setModalMeasurementUnit(value);
   }, []);
   return (
     <>
@@ -105,20 +109,20 @@ export const CreateProduct = (props: createProps) => {
         </ModalSelectComponent>
       }
       {
-        modalUnitMeasurement &&
+        modalMeasurementUnit &&
         <ModalSelectComponent
           stateSelect={true}
           stateMultiple={false}
           title='Unidades de medida:'
-          opendrawer={modalUnitMeasurement}
-          handleDrawer={handleModalUnitMeasurement}
+          opendrawer={modalMeasurementUnit}
+          handleDrawer={handleModalMeasurementUnit}
         >
-          <UnitMeasurementTable
+          <MeasurementUnitTable
             limitInit={5}
             itemSelect={(v) => {
               if (measurementUnitId == null || measurementUnitId.id != v.id) {
                 onValueChange('measurementUnitId', v)
-                handleModalUnitMeasurement(false)
+                handleModalMeasurementUnit(false)
               }
             }}
             items={measurementUnitId == null ? [] : [measurementUnitId.id]}
@@ -141,19 +145,43 @@ export const CreateProduct = (props: createProps) => {
                   helperText={formSubmitted ? nameValid : ''}
                 />
               </Grid>
-              {
-                <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
-                  <ComponentInput
-                    type="text"
-                    label="Precio"
-                    name="price"
-                    value={price}
-                    onChange={onInputChange}
-                    error={!!priceValid && formSubmitted}
-                    helperText={formSubmitted ? priceValid : ''}
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+                <ComponentInput
+                  type="text"
+                  label="Precio"
+                  name="price"
+                  value={price}
+                  onChange={onInputChange}
+                  error={!!priceValid && formSubmitted}
+                  helperText={formSubmitted ? priceValid : ''}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+                <ComponentInput
+                  type="text"
+                  label="Descuento"
+                  name="discount"
+                  value={discount}
+                  onChange={onInputChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+                <Stack direction="row" alignItems="center" justifyContent="center">
+                  <Typography>Monto</Typography>
+                  <MaterialUISwitch
+                    checked={typeDiscount != 'monto'}
+                    onChange={(event) => {
+
+                      if (event.target.checked) {
+                        onValueChange('typeDiscount', 'porcentaje')
+                      } else {
+                        onValueChange('typeDiscount', 'monto')
+                      }
+                    }}
                   />
-                </Grid>
-              }
+                  <Typography>Porcentaje</Typography>
+                </Stack>
+              </Grid>
               <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                 <ComponentSelect
                   label={categoryId != null ? 'Categoria' : ''}
@@ -167,7 +195,7 @@ export const CreateProduct = (props: createProps) => {
                 <ComponentSelect
                   label={measurementUnitId != null ? 'Unidad de medida' : ''}
                   title={measurementUnitId != null ? measurementUnitId.name : 'Unidad de medida'}
-                  onPressed={() => handleModalUnitMeasurement(true)}
+                  onPressed={() => handleModalMeasurementUnit(true)}
                   error={!!measurementUnitIdValid && formSubmitted}
                   helperText={formSubmitted ? measurementUnitIdValid : ''}
                 />

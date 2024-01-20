@@ -1,16 +1,16 @@
 /* UNIT MEASUREMENT MODEL */
-export interface UnitMeasurementModel {
+export interface MeasurementUnitModel {
     id: string;
     name: string;
     state: boolean;
 }
 
 /* FORM UNIT MEASUREMENT MODEL */
-export interface FormUnitMeasurementModel {
+export interface FormMeasurementUnitModel {
     name: string;
 }
 
 /*FORM UNIT MEASUREMENT VALIDATIONS */
-export interface FormUnitMeasurementValidations {
+export interface FormMeasurementUnitValidations {
     name: [(value: string) => boolean, string];
 }

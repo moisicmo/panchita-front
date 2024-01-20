@@ -22,7 +22,7 @@ export const MovementTable = () => {
 
   useEffect(() => {
     const filtered = kardexProducts.filter((e: KardexProductModel) =>
-      e.warehouseId.name.toLowerCase().includes(query.toLowerCase())
+      e.detail.toLowerCase().includes(query.toLowerCase())
     );
     const newList = applyPagination(
       query != '' ? filtered : kardexProducts,
@@ -47,7 +47,6 @@ export const MovementTable = () => {
               <TableCell sx={{ fontWeight: 'bold' }}>Razon</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Detalle</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Producto</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Estado</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Cantidad</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Fecha</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Precio</TableCell>
@@ -58,14 +57,13 @@ export const MovementTable = () => {
             {kardexProductList.map((kardexProduct: KardexProductModel) => {
               return (
                 <TableRow key={kardexProduct.id} >
-                  <TableCell>{kardexProduct.warehouseId.name}</TableCell>
-                  <TableCell>{kardexProduct.modelRef == 'Inputs' ? 'Entrada' : 'Salida'}</TableCell>
+                  <TableCell>{kardexProduct.branchOffice.name}</TableCell>
+                  <TableCell>{kardexProduct.inputOrOutputType == 'inputs' ? 'Entrada' : 'Salida'}</TableCell>
                   <TableCell>{kardexProduct.detail}</TableCell>
-                  <TableCell>{`${kardexProduct.inputOrOutput.productStatusId.productId.code} - ${kardexProduct.inputOrOutput.productStatusId.productId.name}`}</TableCell>
-                  <TableCell>{kardexProduct.inputOrOutput.productStatusId.name}</TableCell>
-                  <TableCell>{kardexProduct.inputOrOutput.quantity}</TableCell>
-                  <TableCell>{format(new Date(kardexProduct.inputOrOutput.createdAt), 'dd MMMM yyyy', { locale: esES })}</TableCell>
-                  <TableCell>{kardexProduct.inputOrOutput.price}</TableCell>
+                  <TableCell>{`${kardexProduct.product.code} - ${kardexProduct.product.name}`}</TableCell>
+                  <TableCell>{kardexProduct.input.quantity ?? kardexProduct.output.quantity}</TableCell>
+                  <TableCell>{format(new Date(kardexProduct.input.createdAt ?? kardexProduct.output.createdAt), 'dd MMMM yyyy', { locale: esES })}</TableCell>
+                  <TableCell>{kardexProduct.input.price ?? kardexProduct.output.price}</TableCell>
                   <TableCell>{kardexProduct.stock}</TableCell>
                 </TableRow>
               );

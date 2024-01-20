@@ -7,7 +7,6 @@ interface cartProps {
   subtractItem: (output: OutputModel) => void;
   addItem: (output: OutputModel) => void;
   removeItem: (output: OutputModel) => void;
-  warehouseId: string;
   error?: boolean;
   helperText?: string;
 }
@@ -19,13 +18,9 @@ export const CartView = (props: cartProps) => {
     subtractItem,
     addItem,
     removeItem,
-    // warehouseId,
     error,
     helperText,
   } = props;
-
-  // const { kardexProducts = [] } = useKardexProductStore();
-
 
   const ElevatedIconButton = styled(IconButton)(({ theme }) => ({
     boxShadow: theme.shadows[1],
@@ -46,12 +41,12 @@ export const CartView = (props: cartProps) => {
               // const kardexProduct: KardexProductModel = kardexProductList[kardexProductList.length - 1];
               return (
                 <div key={index} style={{ borderRadius: 10, border: '1px solid #ccc', padding: 5 }}>
-                  <Typography>{output.productStatusId.productId.name} - {output.productStatusId.name}</Typography>
+                  <Typography>{output.product.name} - {output.product.name}</Typography>
                   <Table>
                     <TableBody>
                       <TableRow>
                         <TableCell style={{ padding: 0 }}>
-                          Precio: {output.productStatusId.price} Bs.
+                          Precio: {output.price} Bs.
                         </TableCell>
                         <TableCell style={{ padding: 0 }} >
                           SubTotal: {output.price * output.quantity} Bs.

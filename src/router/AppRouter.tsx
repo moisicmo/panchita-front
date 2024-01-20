@@ -15,6 +15,7 @@ import { ProductsView } from '@/views/pages/products';
 import { MovementsView } from '@/views/pages/movements';
 import { SalesView } from '@/views/pages/sales';
 import { OrderView } from '@/views/pages/orders';
+import { ReportView } from '@/views/pages/report';
 
 export const AppRouter = () => {
 
@@ -40,6 +41,7 @@ export const AppRouter = () => {
                     <Route path='/movementsView' element={<MovementsView />} />
                     <Route path='/salesView' element={<SalesView />} />
                     <Route path='/orderView' element={<OrderView />} />
+                    <Route path='/ReportView' element={<ReportView />} />
 
                     {/*  */}
                     <Route path="/*" element={<Navigate to={"/dashboardView"} />} />

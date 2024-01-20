@@ -1,6 +1,6 @@
 import { ComponentInput } from '@/components';
 import { useForm, useKardexProductStore, useProductStore } from '@/hooks';
-import { KardexProductModel, OutputModel, ProductModel, ProductStatusModel, WarehouseModel } from '@/models';
+import { BranchOfficeModel, KardexProductModel, OutputModel, ProductModel } from '@/models';
 import { Table, TableBody } from '@mui/material';
 import { ProductsStoreView } from '.';
 
@@ -11,14 +11,14 @@ const formFields = {
 interface searchProps {
   outputIds: OutputModel[];
   pushItem: (output: OutputModel) => void;
-  warehouseId: WarehouseModel;
+  branchOfficeId: BranchOfficeModel;
 }
 
-export const SerchProduct = (props: searchProps) => {
+export const SearchProduct = (props: searchProps) => {
   const {
     outputIds,
     pushItem,
-    warehouseId,
+    branchOfficeId,
   } = props;
 
   const { search, onInputChange } = useForm(formFields);
@@ -39,18 +39,10 @@ export const SerchProduct = (props: searchProps) => {
         <TableBody>
           {
             products.filter((product: ProductModel) => kardexProducts.map((kardexProduct: KardexProductModel) => {
-              if (kardexProduct.warehouseId.id == warehouseId.id) {
-                return kardexProduct.inputOrOutput.productStatusId.productId.id;
+              if (kardexProduct.branchOffice.id == branchOfficeId.id) {
+                return kardexProduct.product.id;
               }
             }).includes(product.id))
-              .map((product: ProductModel) => {
-                return {
-                  ...product,
-                  productStatus: product.productStatus.filter((productStatus: ProductStatusModel) => kardexProducts.map((kardexProduct: KardexProductModel) => {
-                    return kardexProduct.inputOrOutput.productStatusId.id;
-                  }).includes(productStatus.id))
-                }
-              })
               .filter((product: ProductModel) => search !== "" && (
                 (product.name.trim().toUpperCase().includes(search.trim().toUpperCase())) ||
                 (product.code.trim().toUpperCase().includes(search.trim().toUpperCase()))
@@ -58,14 +50,13 @@ export const SerchProduct = (props: searchProps) => {
               .map((product: ProductModel) => {
                 const newProduct = {
                   ...product,
-                  productStatus: [...product.productStatus.filter((productStatus: ProductStatusModel) => !outputIds.map((output: OutputModel) => output.productStatusId.id).includes(productStatus.id))]
+                  productStatus: outputIds.map((output: OutputModel) => output.product.id).includes(product.id)
                 };
-                return newProduct.productStatus.length > 0 && (
+                return !newProduct.productStatus && (
                   <ProductsStoreView
-                    key={newProduct.id}
-                    product={newProduct}
-                    pushItem={pushItem}
-                    warehouseId={warehouseId} />
+                    key={product.id}
+                    product={product}
+                    pushItem={pushItem} />
                 )
               })
           }
@@ -74,4 +65,3 @@ export const SerchProduct = (props: searchProps) => {
     </>
   )
 }
-// filter((output: OutputModel) => cart.warehouseId === warehouseId.id)

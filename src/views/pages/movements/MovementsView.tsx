@@ -1,7 +1,7 @@
 import { ComponentButton } from "@/components"
 import { Stack, SvgIcon, Typography } from "@mui/material"
 import { useCallback, useState } from "react";
-import { MovementTable } from ".";
+import { CreateInputProduct, MovementTable } from ".";
 import { Add } from "@mui/icons-material";
 
 export const MovementsView = () => {
@@ -24,13 +24,13 @@ export const MovementsView = () => {
           startIcon={<SvgIcon fontSize="small"><Add /></SvgIcon>} />
       </Stack>
       <MovementTable />
-      {/* {
+      {
         openDialog &&
         <CreateInputProduct
           open={openDialog}
           handleClose={() => handleDialog(false)}
         />
-      } */}
+      }
     </>
   )
 }

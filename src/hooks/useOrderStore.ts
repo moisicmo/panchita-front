@@ -3,15 +3,18 @@ import { coffeApi } from '@/services';
 import { setAddOrder, setDeleteOrder, setOrders, setOrdersSold, setUpdateOrder } from '@/store';
 import { saveAs } from 'file-saver';
 import Swal from 'sweetalert2';
+import printJS from 'print-js';
+
+
 export const useOrderStore = () => {
   const { orders, ordersSold } = useSelector((state: any) => state.orders);
   const dispatch = useDispatch();
 
   const getOrdersSold = async () => {
     console.log('OBTENIENDO ORDENES VENDIDOS')
-    const { data } = await coffeApi.get('/order/sold');
+    const { data } = await coffeApi.get('/sale');
     console.log(data)
-    dispatch(setOrdersSold({ ordersSold: data.orders }));
+    dispatch(setOrdersSold({ ordersSold: data.sales }));
   }
   const getOrders = async () => {
     console.log('OBTENIENDO ORDENES')
@@ -64,7 +67,7 @@ export const useOrderStore = () => {
       Swal.fire('Oops ocurrió algo', error.response.data.errors[0].msg, 'error');
     }
   }
-  const putUpdateOrderSold = async (id: string) => {
+  const putUpdateOrderSold = async (id: number) => {
     try {
       Swal.fire({
         title: 'Genial, desesa confirmar esta venta!',
@@ -78,7 +81,7 @@ export const useOrderStore = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           console.log('VENDIENDO UNA ORDEN')
-          const { data } = await coffeApi.put(`/order/sold/${id}`);
+          const { data } = await coffeApi.post(`/sale/${id}`);
           dispatch(setDeleteOrder({ id }));
           const byteCharacters = atob(data.document);
           const byteNumbers = new Array(byteCharacters.length);
@@ -87,7 +90,8 @@ export const useOrderStore = () => {
           }
           const byteArray = new Uint8Array(byteNumbers);
           const blob = new Blob([byteArray], { type: 'application/pdf' });
-          saveAs(blob, data.fileName);
+          const pdfURL = window.URL.createObjectURL(blob)
+          printJS(pdfURL)
           Swal.fire(
             'VENTA HECHA',
             'La venta se genero correctamente',
@@ -106,7 +110,7 @@ export const useOrderStore = () => {
       Swal.fire('Oops ocurrió algo', error.response.data.errors[0].msg, 'error');
     }
   }
-  const putUpdateOrder = async (id: string, body: object) => {
+  const putUpdateOrder = async (id: number, body: object) => {
     try {
       console.log('EDITANDO UNA ORDEN')
       console.log(body)
@@ -151,7 +155,7 @@ export const useOrderStore = () => {
       Swal.fire('Oops ocurrió algo', error.response.data.errors[0].msg, 'error');
     }
   }
-  const deleteOrder = async (id: string) => {
+  const deleteOrder = async (id: number) => {
     try {
       Swal.fire({
         title: '¿Estas seguro?',
@@ -184,7 +188,7 @@ export const useOrderStore = () => {
       Swal.fire('Oops ocurrio algo', error.response.data.errors[0].msg, 'error');
     }
   }
-  const getDocumentOrder = async (id: string) => {
+  const getDocumentOrder = async (id: number) => {
     try {
       const { data } = await coffeApi.get(`order/document/${id}`);
       const byteCharacters = atob(data.document);
@@ -194,7 +198,10 @@ export const useOrderStore = () => {
       }
       const byteArray = new Uint8Array(byteNumbers);
       const blob = new Blob([byteArray], { type: 'application/pdf' });
-      saveAs(blob, data.fileName);
+
+      const pdfURL = window.URL.createObjectURL(blob)
+      printJS(pdfURL)
+
     } catch (error: any) {
       Swal.fire('Oops ocurrió algo', error.response.data.errors[0].msg, 'error');
     }

@@ -1,6 +1,6 @@
 import { ComponentSearch, ComponentTablePagination } from "@/components";
 import { useOrderStore } from "@/hooks";
-import { OrderModel } from "@/models";
+import { OrderModel, SaleModel } from "@/models";
 import { applyPagination } from "@/utils/applyPagination";
 import { Download, KeyboardArrowDownOutlined, KeyboardArrowUpOutlined } from "@mui/icons-material";
 import { IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
@@ -20,7 +20,7 @@ export const SaleTable = (props: tableProps) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(limitInit);
   const [orderSoldList, setOrderSoldList] = useState<OrderModel[]>([]);
-  const [openIndex, setOpenIndex] = useState<string | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [query, setQuery] = useState<string>('');
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export const SaleTable = (props: tableProps) => {
 
   useEffect(() => {
     const filtered = ordersSold.filter((e: OrderModel) =>
-      e.warehouseId.name.toLowerCase().includes(query.toLowerCase())
+      e.branchOffice.name.toLowerCase().includes(query.toLowerCase())
     );
     const newList = applyPagination(
       query != '' ? filtered : ordersSold,
@@ -59,23 +59,23 @@ export const SaleTable = (props: tableProps) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {orderSoldList.map((order: OrderModel) => {
+            {orderSoldList.map((sale: SaleModel, index: number) => {
               return (
-                <React.Fragment key={order.id} >
+                <React.Fragment key={index} >
                   <TableRow >
-                    <TableCell>{order.id}</TableCell>
-                    <TableCell>{order.customerId.name}</TableCell>
-                    <TableCell>{order.warehouseId.name}</TableCell>
+                    <TableCell>{sale.id}</TableCell>
+                    <TableCell>{sale.customer.user.name}</TableCell>
+                    <TableCell>{sale.branchOffice.name}</TableCell>
                     <TableCell>
                       <IconButton
                         aria-label="expand row"
                         size="small"
-                        onClick={() => setOpenIndex(openIndex == order.id ? null : order.id)}
+                        onClick={() => setOpenIndex(openIndex == sale.id ? null : sale.id)}
                       >
-                        {openIndex == order.id ? <KeyboardArrowUpOutlined /> : <KeyboardArrowDownOutlined />}
+                        {openIndex == sale.id ? <KeyboardArrowUpOutlined /> : <KeyboardArrowDownOutlined />}
                       </IconButton>
                     </TableCell>
-                    <TableCell>{order.total}</TableCell>
+                    <TableCell>{sale.amount}</TableCell>
                     <TableCell align="right">
                       <Stack
                         alignItems="center"
@@ -83,7 +83,7 @@ export const SaleTable = (props: tableProps) => {
                         spacing={2}
                       >
                         <IconButton
-                          onClick={() => getDocumentOrder(order.id)}
+                          onClick={() => getDocumentOrder(sale.id)}
                         >
                           <Download color="info" />
                         </IconButton>
@@ -92,7 +92,7 @@ export const SaleTable = (props: tableProps) => {
                   </TableRow>
                   <OutputTable
                     openIndex={openIndex!}
-                    order={order}
+                    order={sale}
                   />
                 </React.Fragment>
               );

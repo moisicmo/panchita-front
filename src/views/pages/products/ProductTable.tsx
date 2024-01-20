@@ -60,11 +60,12 @@ export const ProductTable = (props: tableProps) => {
               <TableCell sx={{ fontWeight: 'bold' }}>Categoria</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Und. medida</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Precio</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Descuento</TableCell>
               {!stateSelect && <TableCell sx={{ fontWeight: 'bold' }}>Acciones</TableCell>}
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.map((product: ProductModel) => {
+            {productList.map((product: ProductModel) => {
               const isSelected = items.includes(product.id);
               return (
                 <TableRow key={product.id} >
@@ -80,7 +81,8 @@ export const ProductTable = (props: tableProps) => {
                   <TableCell>{product.name}</TableCell>
                   <TableCell>{product.categoryId.name}</TableCell>
                   <TableCell>{product.measurementUnitId.name}</TableCell>
-                  <TableCell>{product.price}</TableCell>
+                  <TableCell>{`${product.price} Bs.`}</TableCell>
+                  <TableCell>{`${product.discount} ${product.typeDiscount === 'monto' ? 'Bs.' : '%'}`}</TableCell>
                   {
                     !stateSelect && <TableCell align="right">
                       <Stack

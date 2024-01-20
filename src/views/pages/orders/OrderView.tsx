@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { OrderTable } from ".";
 import { Add } from "@mui/icons-material";
 import { OrderModel } from "@/models";
-// import { CreateOrder } from "./createOrder";
+import { CreateOrder } from "./createOrder";
 
 export const OrderView = () => {
   const [openDialog, setopenDialog] = useState(false);
@@ -12,6 +12,7 @@ export const OrderView = () => {
 
   /*CONTROLADOR DEL DIALOG PARA CREAR O EDITAR */
   const handleDialog = useCallback((value: boolean) => {
+    console.log('orden')
     if (!value) setItemEdit(null)
     setopenDialog(value);
   }, []);
@@ -33,14 +34,14 @@ export const OrderView = () => {
           handleDialog(true)
         }}
       />
-      {/* {
+      {
         openDialog &&
         <CreateOrder
           open={openDialog}
           handleClose={() => handleDialog(false)}
           item={itemEdit}
         />
-      } */}
+      }
     </>
   )
 }

@@ -1,22 +1,21 @@
-import { BranchOfficeModel, CustomerModel, OutputModel, } from ".";
+import { BranchOfficeModel, CustomerModel, OutputModel, PaymentMethodModel, } from ".";
 
 
 /* ORDER MODEL */
 export interface OrderModel {
-  id: string;
-  customerId: CustomerModel;
-  warehouseId: BranchOfficeModel;
+  id: number;
+  customer: CustomerModel;
+  paymentMethod: PaymentMethodModel;
+  branchOffice: BranchOfficeModel;
   outputIds: OutputModel[];
-  total: number;
-  discount: number;
-  typeDiscount: string;
+  amount: number;
   createdAt: Date;
 }
 
 
 /* FORM ORDER MODEL */
 export interface FormOderModel {
-  warehouseId: BranchOfficeModel | null;
+  branchOfficeId: BranchOfficeModel | null;
   customerId: CustomerModel | null;
   outputIds: OutputModel[]
   // cartProduct: CartModel[]
@@ -24,7 +23,7 @@ export interface FormOderModel {
 
 /*FORM ORDER VALIDATIONS */
 export interface FormOrderValidations {
-  warehouseId: [(value: BranchOfficeModel) => boolean, string];
+  branchOfficeId: [(value: BranchOfficeModel) => boolean, string];
   customerId: [(value: CustomerModel) => boolean, string];
   // cartProduct: [(value: CartModel[]) => boolean, string];
 }

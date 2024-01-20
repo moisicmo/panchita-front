@@ -32,7 +32,7 @@ export const AccountPopover = ({ anchorEl, onClose, open, onTapSettings }: { anc
                     color="text.secondary"
                     variant="body2"
                 >
-                    {`${JSON.parse(user).user.name} ${JSON.parse(user).user.lastName}`}
+                    {`${user.user.name} ${user.user.lastName}`}
                 </Typography>}
             </Box>
             <Divider />

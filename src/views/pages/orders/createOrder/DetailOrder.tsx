@@ -56,7 +56,7 @@ export const DetailSale = (props: cartProps) => {
           {
             value != null && <TableRow>
               <TableCell component="th" style={{ padding: 0 }}>
-                Cliente: {value.name}
+                Cliente: {value.user.name}
               </TableCell>
               <TableCell component="th" style={{ padding: 0 }}>
                 <IconButton onClick={() => onChange(null)}>
@@ -81,8 +81,8 @@ export const DetailSale = (props: cartProps) => {
               {customers
                 .filter((customer: CustomerModel) =>
                   search !== "" &&
-                  (customer.name.trim().toUpperCase().includes(search.trim().toUpperCase()) ||
-                    customer.numberDocument.toString().includes(search.trim().toUpperCase()))
+                  (customer.user.name.trim().toUpperCase().includes(search.trim().toUpperCase()) ||
+                    customer.user.numberDocument.toString().includes(search.trim().toUpperCase()))
                 )
                 .map((customer: CustomerModel) => (
                   <TableRow key={customer.id}>
@@ -93,7 +93,7 @@ export const DetailSale = (props: cartProps) => {
                         style={{ margin: 5 }}
                         onClick={() => onChange(customer)}
                       >
-                        {customer.name}
+                        {customer.user.name}
                       </Button>
                     </TableCell>
                   </TableRow>

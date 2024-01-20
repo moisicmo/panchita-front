@@ -1,21 +1,11 @@
-import { BranchOfficeModel, ProductModel } from ".";
+import { ProductModel } from ".";
 
 /* OUTPUT MODEL */
 export interface OutputModel {
-  id?: string;
+  id?: number;
   price: number;
-  warehouseId: BranchOfficeModel,
   quantity: number;
   discount: number;
   typeDiscount: string;
-  productStatusId: ProductModel;
+  product: ProductModel;
 }
-// export interface OutputModel {
-//   id: string;
-//   productStatusId: ProductStatusModel;
-//   quantity: number;
-//   price: number;
-//   discount: number;
-//   typeDiscount: string;
-//   createdAt: Date;
-// }

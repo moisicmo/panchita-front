@@ -1,31 +1,31 @@
 import { ComponentButton, ComponentSearch, ComponentTablePagination } from "@/components";
-import { useUnitMeasurementStore } from '@/hooks';
-import { UnitMeasurementModel } from "@/models";
+import { useMeasurementUnitStore } from '@/hooks';
 import { applyPagination } from "@/utils/applyPagination";
 import { Checkbox, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
-import { CreateUnitMeasurement } from ".";
+import { CreateMeasurementUnit } from ".";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
+import { MeasurementUnitModel } from "@/models";
 
 interface tableProps {
   limitInit?: number;
-  itemSelect?: (unitMeasurement: UnitMeasurementModel) => void;
+  itemSelect?: (measurementUnit: MeasurementUnitModel) => void;
   items?: any[];
 }
 
-export const UnitMeasurementTable = (props: tableProps) => {
+export const MeasurementUnitTable = (props: tableProps) => {
   const {
     itemSelect,
     limitInit = 10,
     items = [],
   } = props;
 
-  const { unitMeasurements = [], getUnitMeasurements, deleteUnitMeasurement } = useUnitMeasurementStore();
+  const { measurementUnits = [], getMeasurementUnits, deleteMeasurementUnit } = useMeasurementUnitStore();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(limitInit);
-  const [unitMeasurementList, setUnitMeasurement] = useState<UnitMeasurementModel[]>([]);
+  const [measurementUnitList, setMeasurementUnit] = useState<MeasurementUnitModel[]>([]);
   const [openDialog, setopenDialog] = useState(false);
-  const [itemEdit, setItemEdit] = useState<UnitMeasurementModel | null>(null);
+  const [itemEdit, setItemEdit] = useState<MeasurementUnitModel | null>(null);
   const [query, setQuery] = useState<string>('');
   /*CONTROLADOR DEL DIALOG PARA CREAR O EDITAR */
   const handleDialog = useCallback((value: boolean) => {
@@ -35,20 +35,20 @@ export const UnitMeasurementTable = (props: tableProps) => {
 
 
   useEffect(() => {
-    getUnitMeasurements()
+    getMeasurementUnits()
   }, []);
 
   useEffect(() => {
-    const filtered = unitMeasurements.filter((e: UnitMeasurementModel) =>
+    const filtered = measurementUnits.filter((e: MeasurementUnitModel) =>
       e.name.toLowerCase().includes(query.toLowerCase())
     );
     const newList = applyPagination(
-      query != '' ? filtered : unitMeasurements,
+      query != '' ? filtered : measurementUnits,
       page,
       rowsPerPage
     );
-    setUnitMeasurement(newList)
-  }, [unitMeasurements, page, rowsPerPage, query])
+    setMeasurementUnit(newList)
+  }, [measurementUnits, page, rowsPerPage, query])
 
 
   return (
@@ -77,17 +77,17 @@ export const UnitMeasurementTable = (props: tableProps) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {unitMeasurementList.map((unitMeasurement: UnitMeasurementModel) => {
-              const isSelected = items.includes(unitMeasurement.id);
+            {measurementUnitList.map((measurementUnit: MeasurementUnitModel) => {
+              const isSelected = items.includes(measurementUnit.id);
               return (
-                <TableRow key={unitMeasurement.id} >
+                <TableRow key={measurementUnit.id} >
                   <TableCell padding="checkbox">
                     <Checkbox
                       checked={isSelected}
-                      onChange={() => itemSelect!(unitMeasurement)}
+                      onChange={() => itemSelect!(measurementUnit)}
                     />
                   </TableCell>
-                  <TableCell>{unitMeasurement.name}</TableCell>
+                  <TableCell>{measurementUnit.name}</TableCell>
                   <TableCell align="right">
                     <Stack
                       alignItems="center"
@@ -95,12 +95,12 @@ export const UnitMeasurementTable = (props: tableProps) => {
                       spacing={2}
                     >
                       <IconButton onClick={() => {
-                        setItemEdit(unitMeasurement);
+                        setItemEdit(measurementUnit);
                         handleDialog(true);
                       }} >
                         <EditOutlined color="info" />
                       </IconButton>
-                      <IconButton onClick={() => deleteUnitMeasurement(unitMeasurement.id)} >
+                      <IconButton onClick={() => deleteMeasurementUnit(measurementUnit.id)} >
                         <DeleteOutline color="error" />
                       </IconButton>
                     </Stack>
@@ -112,7 +112,7 @@ export const UnitMeasurementTable = (props: tableProps) => {
         </Table>
       </TableContainer>
       <ComponentTablePagination
-        total={unitMeasurements.length}
+        total={measurementUnits.length}
         onPageChange={(value) => setPage(value)}
         onRowsPerPageChange={(value) => setRowsPerPage(value)}
         page={page}
@@ -120,7 +120,7 @@ export const UnitMeasurementTable = (props: tableProps) => {
       />
       {
         openDialog &&
-        <CreateUnitMeasurement
+        <CreateMeasurementUnit
           open={openDialog}
           handleClose={() => handleDialog(false)}
           item={itemEdit}

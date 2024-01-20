@@ -1,31 +1,31 @@
 import { ComponentInput } from "@/components"
-import { useForm, useUnitMeasurementStore } from "@/hooks";
-import { FormUnitMeasurementModel, FormUnitMeasurementValidations, UnitMeasurementModel } from "@/models";
+import { useForm, useMeasurementUnitStore } from "@/hooks";
+import { FormMeasurementUnitModel, FormMeasurementUnitValidations, MeasurementUnitModel } from "@/models";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material"
 import { FormEvent, useState } from "react";
 
 interface createProps {
   open: boolean;
   handleClose: () => void;
-  item: UnitMeasurementModel | null;
+  item: MeasurementUnitModel | null;
 }
 
-const formFields: FormUnitMeasurementModel = {
+const formFields: FormMeasurementUnitModel = {
   name: ''
 }
 
-const formValidations: FormUnitMeasurementValidations = {
+const formValidations: FormMeasurementUnitValidations = {
   name: [(value: string) => value.length >= 1, 'Debe ingresar el nombre'],
 }
 
 
-export const CreateUnitMeasurement = (props: createProps) => {
+export const CreateMeasurementUnit = (props: createProps) => {
   const {
     open,
     handleClose,
     item,
   } = props;
-  const { postCreateUnitMeasurement, putUpdateUnitMeasurement } = useUnitMeasurementStore();
+  const { postCreateMeasurementUnit, putUpdateMeasurementUnit } = useMeasurementUnitStore();
 
   const [formSubmitted, setFormSubmitted] = useState(false);
   const { name, onInputChange, isFormValid, nameValid, onResetForm } = useForm(item ?? formFields, formValidations);
@@ -35,9 +35,9 @@ export const CreateUnitMeasurement = (props: createProps) => {
     setFormSubmitted(true);
     if (!isFormValid) return;
     if (item == null) {
-      postCreateUnitMeasurement({ name: name.trim() });
+      postCreateMeasurementUnit({ name: name.trim() });
     } else {
-      putUpdateUnitMeasurement(item.id, { name: name.trim() });
+      putUpdateMeasurementUnit(item.id, { name: name.trim() });
     }
     handleClose();
     onResetForm();
