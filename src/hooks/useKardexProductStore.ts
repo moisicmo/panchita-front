@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { coffeApi } from '@/services';
-import { setAddKardexProduct, setKardexProduct } from '@/store';
+import { setAddKardexProduct, setKardexProduct, setKardexProductSale } from '@/store';
 import Swal from 'sweetalert2';
 
 export const useKardexProductStore = () => {
-  const { kardexProducts } = useSelector((state: any) => state.kardexProducts);
+  const { kardexProducts,kardexProductsSale } = useSelector((state: any) => state.kardexProducts);
   const dispatch = useDispatch();
 
   const getAllKardexProducts = async () => {
@@ -17,6 +17,19 @@ export const useKardexProductStore = () => {
     const { data } = await coffeApi.get(`/kardex/${id}`);
     console.log(data)
     dispatch(setKardexProduct({ kardexProducts: data.kardex }));
+  }
+
+
+
+  const getProductsKardexByBranchOffice = async (branchOfficeId:number)=>{
+    try {
+      
+      const { data } = await coffeApi.get(`/kardex/${branchOfficeId}`);
+      console.log(data);
+      dispatch(setKardexProductSale({ kardexProductsSale: data.products }));
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const postCreateInputProduct = async (body: object) => {
@@ -35,9 +48,11 @@ export const useKardexProductStore = () => {
   return {
     //* Propiedades
     kardexProducts,
+    kardexProductsSale,
     //* Métodos
     getAllKardexProducts,
     getKardexProductByProduct,
+    getProductsKardexByBranchOffice,
     postCreateInputProduct,
   }
 }

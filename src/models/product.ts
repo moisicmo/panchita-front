@@ -2,9 +2,11 @@ import { CategoryModel, MeasurementUnitModel } from ".";
 
 /* PRODUCT MODEL */
 export interface ProductModel {
+    productId:number;
+    branchOfficeId:number;
     id: number;
-    categoryId: CategoryModel;
-    measurementUnitId: MeasurementUnitModel;
+    category: CategoryModel;
+    measurementUnit: MeasurementUnitModel;
     code: string;
     name: string;
     image: string | null;
@@ -13,7 +15,9 @@ export interface ProductModel {
     price: number;
     discount: number;
     typeDiscount: string;
+    stock: number;
 }
+
 /* FORM PRODUCT MODEL */
 export interface FormProductModel {
     name: string;

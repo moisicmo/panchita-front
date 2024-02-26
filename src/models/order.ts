@@ -7,8 +7,9 @@ export interface OrderModel {
   customer: CustomerModel;
   paymentMethod: PaymentMethodModel;
   branchOffice: BranchOfficeModel;
-  outputIds: OutputModel[];
+  outputs: OutputModel[];
   amount: number;
+  stateSale:boolean;
   createdAt: Date;
 }
 

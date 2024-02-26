@@ -12,6 +12,7 @@ import {
   branchOfficeSlice,
   measurementUnitSlice,
   reportSlice,
+  cartSlice,
 
 } from '.';
 
@@ -29,6 +30,7 @@ export const store = configureStore({
     kardexProducts: kardexProductSlice.reducer,
     orders: orderSlice.reducer,
     reports: reportSlice.reducer,
+    cart: cartSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: false

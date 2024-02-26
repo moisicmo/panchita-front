@@ -34,7 +34,9 @@ export const ProductTable = (props: tableProps) => {
 
   useEffect(() => {
     const filtered = products.filter((e: ProductModel) =>
-      e.name.toLowerCase().includes(query.toLowerCase())
+      e.name.toLowerCase().includes(query.toLowerCase())||
+      e.code.toLowerCase().includes(query.toLowerCase())||
+      e.categoryId.name.toLowerCase().includes(query.toLowerCase())
     );
     const newList = applyPagination(
       query != '' ? filtered : products,

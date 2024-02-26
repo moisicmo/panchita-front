@@ -2,7 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/mate
 
 interface selectProps {
   title: string;
-  value: string;
+  value: string|number;
   onChange: (value: any) => void;
   options: any[];
   error?: boolean;

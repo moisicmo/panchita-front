@@ -28,7 +28,7 @@ export const OutputTable = (props: outputProps) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {order.outputIds.map((outputs: OutputModel) => {
+              {order.outputs.map((outputs: OutputModel) => {
                 return (
                   <TableRow key={outputs.id}>
                     <TableCell>{outputs.product.code}</TableCell>

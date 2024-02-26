@@ -5,61 +5,59 @@ import { useAuthStore } from '@/hooks';
 
 export const AccountPopover = ({ anchorEl, onClose, open, onTapSettings }: { anchorEl: any, onClose: any, open: boolean, onTapSettings: any }) => {
 
-    const navigate = useNavigate();
-    const { startLogout } = useAuthStore();
-    const { user } = useAuthStore();
+  const navigate = useNavigate();
+  const { startLogout } = useAuthStore();
+  const { user } = useAuthStore();
 
-    return (
-        <Popover
-            anchorEl={anchorEl}
-            anchorOrigin={{
-                horizontal: 'left',
-                vertical: 'bottom'
-            }}
-            onClose={onClose}
-            open={open}
+  return (
+    <Popover
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        horizontal: 'left',
+        vertical: 'bottom'
+      }}
+      onClose={onClose}
+      open={open}
+    >
+      <Box
+        sx={{
+          py: 1.5,
+          px: 2
+        }}
+      >
+        <Typography variant="overline">
+          Cuenta
+        </Typography>
+        {user && <Typography
+          color="text.secondary"
+          variant="body2"
         >
-            <Box
-                sx={{
-                    py: 1.5,
-                    px: 2
-                }}
-            >
-                <Typography variant="overline">
-                    Cuenta
-                </Typography>
-                {user && <Typography
-                    color="text.secondary"
-                    variant="body2"
-                >
-                    {`${user.user.name} ${user.user.lastName}`}
-                </Typography>}
-            </Box>
-            <Divider />
-            <MenuList
-                disablePadding
-                dense
-                sx={{
-                    p: '8px',
-                    '& > *': {
-                        borderRadius: 1
-                    }
-                }}
-            >
-                <MenuItem
-                    onClick={() => onTapSettings()}
-                >
-                    Configuraciones
-                </MenuItem>
-                <MenuItem
-                    onClick={() => {
-                        startLogout();
-                        navigate('/');
-                    }}
-                >
-                    Salir Sesión
-                </MenuItem>
-            </MenuList>
-        </Popover>
-    );
+          {`${user.user.name} ${user.user.lastName}`}
+        </Typography>}
+      </Box>
+      <Divider />
+      <MenuList
+        disablePadding
+        dense
+        sx={{
+          p: '8px',
+          '& > *': {
+            borderRadius: 1
+          }
+        }}
+      >
+        <MenuItem onClick={() => onTapSettings()} >
+          Configuraciones
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            startLogout();
+            navigate('/');
+          }}
+        >
+          Salir Sesión
+        </MenuItem>
+      </MenuList>
+    </Popover>
+  );
 };

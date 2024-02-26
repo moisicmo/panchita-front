@@ -36,7 +36,7 @@ export const useBranchOfficeStore = () => {
     }
   }
 
-  const deleteBranchOffice = async (id: string) => {
+  const deleteBranchOffice = async (id: number) => {
     try {
       Swal.fire({
         title: '¿Estas seguro?',

@@ -24,7 +24,7 @@ export const useProductStore = () => {
         }
     }
 
-    const putUpdateProduct = async (id: string, body: object) => {
+    const putUpdateProduct = async (id: number, body: object) => {
         try {
             const { data } = await coffeApi.put(`/product/${id}`, body);
             console.log(data)
@@ -34,7 +34,7 @@ export const useProductStore = () => {
             Swal.fire('Oops ocurrio algo', error.response.data.errors[0].msg, 'error');
         }
     }
-    const deleteProduct = async (id: string) => {
+    const deleteProduct = async (id: number) => {
         try {
             Swal.fire({
                 title: '¿Estas seguro?',

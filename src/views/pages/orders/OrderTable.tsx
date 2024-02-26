@@ -1,5 +1,5 @@
 import { ComponentButton, ComponentSearch, ComponentTablePagination } from "@/components";
-import { useOrderStore } from "@/hooks";
+import { useKardexProductStore, useOrderStore } from "@/hooks";
 import { OrderModel } from "@/models";
 import { applyPagination } from "@/utils/applyPagination";
 import { DeleteOutline, Download, EditOutlined, KeyboardArrowDownOutlined, KeyboardArrowUpOutlined } from "@mui/icons-material";
@@ -10,16 +10,18 @@ import { format } from "date-fns";
 import esES from 'date-fns/locale/es';
 
 interface tableProps {
-  handleEdit?: (typeUser: OrderModel) => void;
+  branchOfficeId: number;
+  handleEdit: (orderModel: OrderModel) => void;
   limitInit?: number;
 }
 
 export const OrderTable = (props: tableProps) => {
   const {
+    branchOfficeId,
     handleEdit,
     limitInit = 10,
   } = props;
-
+  const { getProductsKardexByBranchOffice } = useKardexProductStore();
   const { orders = [], getOrders, getDocumentOrder, putUpdateOrderSold, deleteOrder } = useOrderStore();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(limitInit);
@@ -28,7 +30,8 @@ export const OrderTable = (props: tableProps) => {
   const [query, setQuery] = useState<string>('');
 
   useEffect(() => {
-    getOrders()
+    getOrders(branchOfficeId);
+    getProductsKardexByBranchOffice(branchOfficeId);
   }, []);
 
   useEffect(() => {
@@ -60,6 +63,7 @@ export const OrderTable = (props: tableProps) => {
               <TableCell sx={{ fontWeight: 'bold' }}>Productos</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Fecha</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Total</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Estado</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Acciones</TableCell>
             </TableRow>
           </TableHead>
@@ -82,13 +86,14 @@ export const OrderTable = (props: tableProps) => {
                     </TableCell>
                     <TableCell>{`${format(new Date(order.createdAt), 'dd MMMM yyyy', { locale: esES })}`}</TableCell>
                     <TableCell>{order.amount}</TableCell>
+                    <TableCell>{order.stateSale?'vendido':'orden'}</TableCell>
                     <TableCell align="right">
                       <Stack
                         alignItems="center"
                         direction="row"
                         spacing={2}
                       >
-                        <IconButton onClick={() => handleEdit!(order)} >
+                        <IconButton onClick={() => handleEdit(order)} >
                           <EditOutlined color="info" />
                         </IconButton>
                         <ComponentButton

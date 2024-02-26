@@ -1,6 +1,6 @@
 /* BRANCH OFFICE MODEL */
 export interface BranchOfficeModel {
-  id: string;
+  id: number;
   typeBranchOffice: string;
   name: string;
   address: string;

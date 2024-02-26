@@ -86,6 +86,7 @@ export const CreateCustomer = (props: createProps) => {
           title='Tipo de documento:'
           opendrawer={modal}
           handleDrawer={handleModal}
+          zIndex={10000}
         >
           <TypeDocumentTable
             stateSelect={true}
@@ -100,7 +101,7 @@ export const CreateCustomer = (props: createProps) => {
           />
         </ModalSelectComponent>
       }
-      <Dialog open={open} onClose={handleClose} >
+      <Dialog open={open} onClose={handleClose} sx={{zIndex:9999}} >
         <DialogTitle>{item == null ? 'Nuevo cliente' : `${item.user.name}`}</DialogTitle>
         <form onSubmit={sendSubmit}>
           <DialogContent sx={{ display: 'flex' }}>

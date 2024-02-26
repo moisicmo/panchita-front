@@ -10,5 +10,6 @@ export * from './measurementUnit/measurementUnitSlice';
 export * from './kardexProduct/kardexProductSlice';
 export * from './order/orderSlice';
 export * from './report/reportSlice';
+export * from './cart/cartSlice';
 
 export * from './store';

@@ -7,7 +7,7 @@ interface elementsProps {
     onPressed: any;
     items?: any;
     color?: any;
-    onRemove?: (value: string) => void;
+    onRemove?: (value: number) => void;
     error?: boolean;
     helperText?: string;
 }

@@ -25,13 +25,13 @@ export const menu = () => {
         },
         {
           path: "/orderView",
-          title: "Ordenes",
+          title: "Ordenes y Ventas",
           icon: <Home />,
           permission: "show-halls"
         },
         {
           path: "/salesView",
-          title: "Ventas",
+          title: "Punto de venta",
           icon: <Home />,
           permission: "show-halls"
         },

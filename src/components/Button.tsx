@@ -1,20 +1,53 @@
 import { Button } from '@mui/material'
-import { memo } from 'react'
 
-export const ComponentButton = memo(({ type, text, onClick, width, startIcon, disable, margin, height }: { type?: any, text: string, onClick?: any, width?: any, startIcon?: any, margin?: any, height?: any, disable?: boolean }) => {
+interface buttonProps {
+    type?: any,
+    text?: any,
+    onClick?: any,
+    width?: any,
+    startIcon?: any,
+    margin?: any,
+    height?: any,
+    disable?: boolean,
+    variant?: any,
+
+    maxWidth?: any,
+    minWidth?: any,
+}
+export const ComponentButton = (props: buttonProps) => {
+    const {
+        type,
+        text,
+        onClick,
+        width,
+        startIcon,
+        disable,
+        margin,
+        height,
+        variant = 'contained',
+        maxWidth,
+        minWidth,
+    } = props;
     return (
         <Button
             type={type}
             className='mt-2'
-            variant="contained"
+            variant={variant}
             disableElevation
             disableRipple
             disabled={disable}
-            startIcon={startIcon}
+            startIcon={text == null ? null : startIcon}
             onClick={onClick}
-            sx={{ fontWeight: 'bold', margin: { margin }, width: { width }, height: { height } }}
+            sx={{
+                fontWeight: 'bold',
+                margin: { margin },
+                width: { width },
+                maxWidth: { maxWidth },
+                minWidth: { minWidth },
+                height: { height },
+            }}
         >
-            {text}
+            {text == null ? startIcon : text}
         </Button>
     )
-});
+};
