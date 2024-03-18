@@ -3,7 +3,7 @@ import { useKardexProductStore, useOrderStore } from "@/hooks";
 import { OrderModel } from "@/models";
 import { applyPagination } from "@/utils/applyPagination";
 import { DeleteOutline, Download, EditOutlined, KeyboardArrowDownOutlined, KeyboardArrowUpOutlined } from "@mui/icons-material";
-import { IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { OutputTable } from ".";
 import { format } from "date-fns";
@@ -86,31 +86,34 @@ export const OrderTable = (props: tableProps) => {
                     </TableCell>
                     <TableCell>{`${format(new Date(order.createdAt), 'dd MMMM yyyy', { locale: esES })}`}</TableCell>
                     <TableCell>{order.amount}</TableCell>
-                    <TableCell>{order.stateSale?'vendido':'orden'}</TableCell>
-                    <TableCell align="right">
-                      <Stack
-                        alignItems="center"
-                        direction="row"
-                        spacing={2}
-                      >
-                        <IconButton onClick={() => handleEdit(order)} >
-                          <EditOutlined color="info" />
-                        </IconButton>
-                        <ComponentButton
-                          text="Vender"
-                          onClick={() => putUpdateOrderSold(order.id)}
-                        />
-                        <IconButton
-                          onClick={() => getDocumentOrder(order.id)}
-                        >
-                          <Download color="info" />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => deleteOrder(order.id)}
-                        >
-                          <DeleteOutline color="error" />
-                        </IconButton>
-                      </Stack>
+                    <TableCell>{order.stateSale ? 'vendido' : 'orden'}</TableCell>
+                    <TableCell align="left">
+                      {
+                        !order.state ? <Typography>ANULADO</Typography> :
+                          <Stack
+                            alignItems="center"
+                            direction="row"
+                            spacing={2}
+                          >
+                            {!order.stateSale && <IconButton onClick={() => handleEdit(order)} >
+                              <EditOutlined color="info" />
+                            </IconButton>}
+                            {!order.stateSale && <ComponentButton
+                              text="Vender"
+                              onClick={() => putUpdateOrderSold(order)}
+                            />}
+                            <IconButton
+                              onClick={() => getDocumentOrder(order.id)}
+                            >
+                              <Download color="info" />
+                            </IconButton>
+                            <IconButton
+                              onClick={() => deleteOrder(order)}
+                            >
+                              <DeleteOutline color="error" />
+                            </IconButton>
+                          </Stack>
+                      }
                     </TableCell>
                   </TableRow>
                   <OutputTable

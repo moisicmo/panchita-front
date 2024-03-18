@@ -51,7 +51,7 @@ export const CardCart = (props: cartProps) => {
             direction="row"
             justifyContent="space-between">
             <Typography>
-              {`${output.price??output.product.price } x ${output.quantity} =`}
+              {`${output.product.price??output.price } Bs  x ${output.quantity} =`}
             </Typography>
             <Typography>
               {`${(output.product.price??output.price) * output.quantity} Bs.`}

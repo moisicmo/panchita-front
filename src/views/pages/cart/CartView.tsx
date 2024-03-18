@@ -82,7 +82,8 @@ export const CartView = () => {
                 addItem={()=>addCard(output)}
                 removeItem={()=>removeCard(output)}
                 />
-            ))
+            )
+            )
           }
         </div>
         <Stack

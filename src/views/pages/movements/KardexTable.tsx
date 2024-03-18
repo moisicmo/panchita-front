@@ -27,7 +27,7 @@ export const KardexTable = (props: tableProps) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {KardexModelList.map((KardexModel: KardexModel) => (
+              {KardexModelList.filter((e)=>e.output?.quantity!=0).map((KardexModel: KardexModel) => (
                 <TableRow
                   key={KardexModel.id}
                   sx={{

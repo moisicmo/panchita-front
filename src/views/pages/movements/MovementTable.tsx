@@ -15,12 +15,11 @@ export const MovementTable = () => {
     getAllKardexProducts()
   }, []);
 
-
-
   const [expanded, setExpanded] = useState<string | false>(false);
 
   const handleChange =
     (panel: string) => (_event: SyntheticEvent, isExpanded: boolean) => {
+      console.log('CAMBIO');
       setExpanded(isExpanded ? panel : false);
     };
   return (

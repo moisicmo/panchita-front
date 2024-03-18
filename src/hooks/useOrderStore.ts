@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { coffeApi } from '@/services';
-import { setClearAllCart, setDeleteOrder, setKardexProductSale, setOrders, setOrdersSold, setUpdateOrder } from '@/store';
-import { saveAs } from 'file-saver';
+import { setClearAllCart, setKardexProductSale, setOrders, setOrdersSold, setUpdateOrder } from '@/store';
 import Swal from 'sweetalert2';
 import printJS from 'print-js';
+import { OrderModel } from '@/models';
 
 
 export const useOrderStore = () => {
@@ -62,7 +62,7 @@ export const useOrderStore = () => {
       Swal.fire('Oops ocurrió algo', error.response.data.errors[0].msg, 'error');
     }
   }
-  const putUpdateOrderSold = async (id: number) => {
+  const putUpdateOrderSold = async (order: OrderModel) => {
     try {
       Swal.fire({
         title: 'Genial, desesa confirmar esta venta!',
@@ -75,9 +75,7 @@ export const useOrderStore = () => {
         cancelButtonText: 'No, aun no',
       }).then(async (result) => {
         if (result.isConfirmed) {
-          console.log('VENDIENDO UNA ORDEN')
-          const { data } = await coffeApi.post(`/sale/${id}`);
-          dispatch(setDeleteOrder({ id }));
+          const { data } = await coffeApi.post(`/order/sale/${order.id}`);
           const byteCharacters = atob(data.document);
           const byteNumbers = new Array(byteCharacters.length);
           for (let i = 0; i < byteCharacters.length; i++) {
@@ -87,6 +85,8 @@ export const useOrderStore = () => {
           const blob = new Blob([byteArray], { type: 'application/pdf' });
           const pdfURL = window.URL.createObjectURL(blob)
           printJS(pdfURL)
+          //cambiar el estado
+          dispatch(setUpdateOrder({ order: {...order,stateSale:true} }))
           Swal.fire(
             'VENTA HECHA',
             'La venta se genero correctamente',
@@ -109,48 +109,46 @@ export const useOrderStore = () => {
     try {
       console.log('EDITANDO UNA ORDEN')
       console.log(body)
-      // const { data } = await coffeApi.put(`/order/${id}`, body);
-      // dispatch(setUpdateOrder({ order: data.order }))
-      // Swal.fire({
-      //   title: 'Genial, orden Modificado!',
-      //   text: "¿Deseas descargar la PROFORMA DE ORDEN?",
-      //   icon: 'success',
-      //   showCancelButton: true,
-      //   confirmButtonColor: '#3085d6',
-      //   cancelButtonColor: '#d33',
-      //   confirmButtonText: '¡Sí, quiero la Proforma!',
-      //   cancelButtonText: 'No, esta bien asi',
-      // }).then(async (result) => {
-      //   if (result.isConfirmed) {
-      //     const byteCharacters = atob(data.document);
-      //     const byteNumbers = new Array(byteCharacters.length);
-      //     for (let i = 0; i < byteCharacters.length; i++) {
-      //       byteNumbers[i] = byteCharacters.charCodeAt(i);
-      //     }
-      //     const byteArray = new Uint8Array(byteNumbers);
-      //     const blob = new Blob([byteArray], { type: 'application/pdf' });
-      //     saveAs(blob, data.fileName);
-
-      //     // if (Object.keys(body).length === 0) return;
-      //     // Swal.fire('Reporte generado correctamente', '', 'success');
-      //     Swal.fire(
-      //       'ORDEN Y PROFORMA',
-      //       'La orden y el documento se modificaron correctamente',
-      //       'success'
-      //     )
-      //   } else {
-      //     Swal.fire(
-      //       'ORDEN',
-      //       'La orden se modifico correctamente :)',
-      //       'success'
-      //     )
-      //   }
-      // });
+      const { data } = await coffeApi.put(`/order/${id}`, body);
+      dispatch(setUpdateOrder({ order: data.order }))
+      Swal.fire({
+        title: 'Genial, orden Modificado!',
+        text: "¿Deseas descargar la PROFORMA DE ORDEN?",
+        icon: 'success',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '¡Sí, quiero la Proforma!',
+        cancelButtonText: 'No, esta bien asi',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const byteCharacters = atob(data.document);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: 'application/pdf' });
+          const pdfURL = window.URL.createObjectURL(blob)
+          printJS(pdfURL)
+          Swal.fire(
+            'ORDEN Y PROFORMA',
+            'La orden y el documento se modificaron correctamente',
+            'success'
+          )
+        } else {
+          Swal.fire(
+            'ORDEN',
+            'La orden se modifico correctamente :)',
+            'success'
+          )
+        }
+      });
     } catch (error: any) {
       Swal.fire('Oops ocurrió algo', error.response.data.errors[0].msg, 'error');
     }
   }
-  const deleteOrder = async (id: number) => {
+  const deleteOrder = async (order: OrderModel) => {
     try {
       Swal.fire({
         title: '¿Estas seguro?',
@@ -163,9 +161,8 @@ export const useOrderStore = () => {
         cancelButtonText: '¡No, cancelar!',
       }).then(async (result) => {
         if (result.isConfirmed) {
-          const { data } = await coffeApi.delete(`/order/${id}`);
-          console.log(data)
-          dispatch(setDeleteOrder({ id }));
+          await coffeApi.delete(`/order/${order.id}`);
+          dispatch(setUpdateOrder({ order: {...order,state:false} }))
           Swal.fire(
             'Eliminado',
             'Orden eliminado correctamente',

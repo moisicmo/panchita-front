@@ -1,18 +1,23 @@
 import { BranchOfficeModel } from "@/models";
 import { Typography } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ComponentSelect, ModalSelectComponent } from "@/components";
 import { BranchOfficeTable } from "../branchOffices";
 import { ProductSaleTable } from ".";
-import { useCartStore } from "@/hooks";
+import { useBranchOfficeStore, useCartStore } from "@/hooks";
 
 export const SalesView = () => {
+  const { branchOffices = [], getBranchOffices } = useBranchOfficeStore();
   const [branchOffice, setBranchOffice] = useState<BranchOfficeModel | null>(null);
   const [modalBranchOffice, setModalBranchOffice] = useState(false);
   const { addCard, removeCard } = useCartStore();
   
   const handleModalBranchOffice = useCallback((value: boolean) => {
     setModalBranchOffice(value);
+  }, []);
+
+  useEffect(() => {
+    getBranchOffices();
   }, []);
   return (
     <>
@@ -46,10 +51,10 @@ export const SalesView = () => {
         onPressed={() => handleModalBranchOffice(true)}
       />
       {
-        branchOffice != null && 
+        branchOffices.length == 1 && 
         <ProductSaleTable
-          branchOffice={branchOffice}
-          addItem={(product)=>addCard(product ,branchOffice)}
+          branchOffice={branchOffices.length == 1?  branchOffices[0]: branchOffice}
+          addItem={(product)=>addCard(product ,branchOffices.length == 1?  branchOffices[0]: branchOffice)}
           removeItem={(product)=>removeCard(product)}
         />
       }

@@ -1,6 +1,6 @@
 import { ComponentButton, ComponentSearch, ComponentTablePagination } from "@/components";
 import { useCartStore, useKardexProductStore } from "@/hooks";
-import { BranchOfficeModel, OrderModel, OutputModel, ProductModel } from "@/models";
+import { BranchOfficeModel, OutputModel, ProductModel } from "@/models";
 import { applyPagination } from "@/utils/applyPagination";
 import { Add, Remove } from "@mui/icons-material";
 import { Stack, SvgIcon, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
@@ -10,18 +10,18 @@ import { useEffect, useState } from "react";
 interface tableProps {
   branchOffice: BranchOfficeModel;
   limitInit?: number;
-  order?: OrderModel;
   addItem: (product: OutputModel) => void;
   removeItem: (product: OutputModel) => void;
+  cartOrder?: OutputModel[];
 }
 
 export const ProductSaleTable = (props: tableProps) => {
   const {
     branchOffice,
     limitInit = 10,
-    order = null,
     addItem,
     removeItem,
+    cartOrder,
   } = props;
 
   const { kardexProductsSale = [], getProductsKardexByBranchOffice } = useKardexProductStore();
@@ -85,10 +85,10 @@ export const ProductSaleTable = (props: tableProps) => {
             {
               productList.map((product: ProductModel) => {
                 let item: OutputModel | undefined;
-                if (order != null) {
-                  item = order.outputs.find((item) => item.product.id == product.id) as OutputModel;
-                } else {
-                  item = cart.find((item: OutputModel) => item.product.id == product.id && item.product.branchOfficeId == product.branchOfficeId)
+                if(cartOrder!=null){
+                  item = cartOrder.find((item:OutputModel)=>item.product.id == product.id && item.product.branchOfficeId == product.branchOfficeId);
+                }else{
+                  item = cart.find((item: OutputModel) => item.product.id == product.id && item.product.branchOfficeId == product.branchOfficeId);
                 }
                 return (
                   <TableRow key={`${product.id}-${product.branchOfficeId}`} >

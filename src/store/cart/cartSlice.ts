@@ -32,7 +32,7 @@ export const cartSlice = createSlice({
             if (e.quantity < e.product.stock) {
               return {
                 ...e,
-                quantity: e.quantity + 1
+                quantity: e.quantity + 1,
               };
             }
           }
