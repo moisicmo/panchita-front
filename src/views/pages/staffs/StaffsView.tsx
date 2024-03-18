@@ -3,7 +3,7 @@ import { Stack, SvgIcon, Typography } from "@mui/material"
 import { useCallback, useState } from "react";
 import { CreateUser, UserTable } from ".";
 import { Add } from "@mui/icons-material";
-import { StaffModel } from "@/models";
+// import { StaffModel } from "@/models";
 
 export const UsersView = () => {
   const [openDialog, setopenDialog] = useState(false);

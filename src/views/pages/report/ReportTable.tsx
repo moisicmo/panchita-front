@@ -1,16 +1,16 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
-import esES from 'date-fns/locale/es';
-import { format } from "date-fns";
-import { useReportStore } from "@/hooks";
+import { Table, TableContainer } from "@mui/material"
+// import esES from 'date-fns/locale/es';
+// import { format } from "date-fns";
+// import { useReportStore } from "@/hooks";
 
 export const ReportTable = () => {
 
-  const { reportData = [] } = useReportStore();
+  // const { reportData = [] } = useReportStore();
 
   return (
     <TableContainer>
       <Table size="small">
-        <TableHead>
+        {/* <TableHead>
           <TableRow sx={{ backgroundColor: '#E2F6F0' }}>
             <TableCell sx={{ fontWeight: 'bold' }}>Descripción</TableCell>
             <TableCell sx={{ fontWeight: 'bold' }}>Paciente</TableCell>
@@ -19,7 +19,7 @@ export const ReportTable = () => {
             <TableCell sx={{ fontWeight: 'bold' }}>Etapa</TableCell>
             <TableCell sx={{ fontWeight: 'bold' }}>Estado</TableCell>
           </TableRow>
-        </TableHead>
+        </TableHead> */}
         {/* <TableBody>
           {reportData.map((treatment: TreatmentModel) => (
             <TableRow key={treatment.id}>

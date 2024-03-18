@@ -8,7 +8,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { createPalette } from './utils/createPalette';
 import React from 'react';
-// import React from 'react';
 
 const theme = createTheme({
   breakpoints: {
@@ -44,9 +43,9 @@ fontStyle.load().then(() => {
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  // <React.StrictMode>
-  // </React.StrictMode>
+  <React.StrictMode>
     <ThemeProvider theme={theme}>
       <App />
     </ThemeProvider>
+  </React.StrictMode>
 )

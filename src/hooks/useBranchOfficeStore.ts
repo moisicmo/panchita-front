@@ -25,7 +25,7 @@ export const useBranchOfficeStore = () => {
     }
   }
 
-  const putUpdateBranchOffice = async (id: string, body: object) => {
+  const putUpdateBranchOffice = async (id: number, body: object) => {
     try {
       const { data } = await coffeApi.put(`/branchOffice/${id}`, body);
       console.log(data)

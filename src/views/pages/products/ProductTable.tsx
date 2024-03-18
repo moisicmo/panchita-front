@@ -36,7 +36,7 @@ export const ProductTable = (props: tableProps) => {
     const filtered = products.filter((e: ProductModel) =>
       e.name.toLowerCase().includes(query.toLowerCase())||
       e.code.toLowerCase().includes(query.toLowerCase())||
-      e.categoryId.name.toLowerCase().includes(query.toLowerCase())
+      e.category.name.toLowerCase().includes(query.toLowerCase())
     );
     const newList = applyPagination(
       query != '' ? filtered : products,
@@ -81,8 +81,8 @@ export const ProductTable = (props: tableProps) => {
                   }
                   <TableCell>{product.code}</TableCell>
                   <TableCell>{product.name}</TableCell>
-                  <TableCell>{product.categoryId.name}</TableCell>
-                  <TableCell>{product.measurementUnitId.name}</TableCell>
+                  <TableCell>{product.category.name}</TableCell>
+                  <TableCell>{product.measurementUnit.name}</TableCell>
                   <TableCell>{`${product.price} Bs.`}</TableCell>
                   <TableCell>{`${product.discount} ${product.typeDiscount === 'monto' ? 'Bs.' : '%'}`}</TableCell>
                   {

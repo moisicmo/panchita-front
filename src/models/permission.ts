@@ -1,6 +1,6 @@
 /* PERMISSION MODEL */
 export interface PermissionModel {
-    id: string;
+    id: number;
     name: string;
     module: string;
     state: boolean;
