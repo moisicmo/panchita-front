@@ -1,44 +1,50 @@
-import { Assessment, Group, Home } from "@mui/icons-material"
+import { Assessment, Dashboard, Extension, Group, HistoryEdu, Home, LocalPolice, PointOfSale, Receipt, Storefront } from "@mui/icons-material"
 
 export const menu = () => {
   return [
     {
       path: "/dashboardView",
       title: "Inicio",
-      icon: <Home />
+      icon: <Dashboard />
     },
     {
-      title: "Gestión de Inventario",
+      title: "Inventario",
       permission: "show-rent",
       group: [
         {
           path: "/productsView",
           title: "Productos",
-          icon: <Home />,
+          icon: <Extension />,
           permission: "show-halls"
         },
         {
           path: "/movementsView",
           title: "Movimientos",
-          icon: <Home />,
-          permission: "show-halls"
-        },
-        {
-          path: "/orderView",
-          title: "Ordenes y Ventas",
-          icon: <Home />,
+          icon: <HistoryEdu />,
           permission: "show-halls"
         },
         {
           path: "/salesView",
-          title: "Punto de venta",
+          title: "Ordenes y ventas",
+          icon: <Receipt />,
+          permission: "show-halls"
+        },
+        {
+          path: "/ordersView",
+          title: "Entregas",
           icon: <Home />,
+          permission: "show-halls"
+        },
+        {
+          path: "/pointSalesView",
+          title: "Punto de venta",
+          icon: <PointOfSale />,
           permission: "show-halls"
         },
       ]
     },
     {
-      title: "Gestión de Clientes",
+      title: "Clientes",
       permission: "show-rent",
       group: [
         {
@@ -47,16 +53,16 @@ export const menu = () => {
           icon: <Group />,
           permission: "show-halls"
         },
-        {
-          path: "/customerCreditsView",
-          title: "Creditos",
-          icon: <Group />,
-          permission: "show-halls"
-        },
+        // {
+        //   path: "/customerCreditsView",
+        //   title: "Creditos",
+        //   icon: <Group />,
+        //   permission: "show-halls"
+        // },
       ]
     },
     {
-      title: "Gestión de Usuarios",
+      title: "Staff",
       permission: "show-rent",
       group: [
         {
@@ -68,13 +74,13 @@ export const menu = () => {
         {
           path: "/BranchOfficesView",
           title: "Sucursales",
-          icon: <Home />,
+          icon: <Storefront />,
           permission: "show-halls"
         },
         {
           path: "/rolesView",
           title: "Roles",
-          icon: <Group />,
+          icon: <LocalPolice />,
           permission: "show-halls"
         },
         {

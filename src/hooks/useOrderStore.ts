@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { coffeApi } from '@/services';
-import { setClearAllCart, setKardexProductSale, setOrders, setOrdersSold, setUpdateOrder } from '@/store';
+import { setAddOrder, setClearAllCart, setKardexProductSale, setOrders, setOrdersSold, setUpdateOrder } from '@/store';
 import Swal from 'sweetalert2';
 import printJS from 'print-js';
 import { OrderModel } from '@/models';
@@ -22,6 +22,9 @@ export const useOrderStore = () => {
     console.log(data)
     dispatch(setOrders({ orders: data.orders }));
   }
+  const addOrder = async (order: OrderModel) => {
+    dispatch(setAddOrder({ order }));
+  }
   const postCreateOrder = async (body: object) => {
     try {
       console.log('GENERANDO UNA ORDEN')
@@ -39,23 +42,51 @@ export const useOrderStore = () => {
         if (result.isConfirmed) {
           const { data } = await coffeApi.post('/order', body);
           console.log(data);
-          Swal.fire(
-            'ORDEN',
-            'La orden se realizo correctamente :)',
-            'success'
-          )
-          dispatch(setKardexProductSale({ kardexProductsSale: data.products }));
-          dispatch(setClearAllCart());
-          const byteCharacters = atob(data.document);
-          const byteNumbers = new Array(byteCharacters.length);
-          for (let i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-          }
-          const byteArray = new Uint8Array(byteNumbers);
-          const blob = new Blob([byteArray], { type: 'application/pdf' });
-          const pdfURL = window.URL.createObjectURL(blob)
-          printJS(pdfURL)
-          
+          const order = data.order;
+          Swal.fire({
+            title: 'ORDEN HECHA',
+            text: "¿Deseas vender está orden?",
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#308512',
+            confirmButtonText: '¡Sí, vender!',
+            cancelButtonText: '¡No, mantener como orden!',
+          }).then(async (result) => {
+            dispatch(setKardexProductSale({ kardexProductsSale: data.products }));
+            dispatch(setClearAllCart());
+            if (result.isConfirmed) {
+              const { data } = await coffeApi.post(`/order/sale/${order.id}`);
+              const byteCharacters = atob(data.document);
+              const byteNumbers = new Array(byteCharacters.length);
+              for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+              }
+              const byteArray = new Uint8Array(byteNumbers);
+              const blob = new Blob([byteArray], { type: 'application/pdf' });
+              const pdfURL = window.URL.createObjectURL(blob)
+              printJS(pdfURL)
+              //cambiar el estado
+              dispatch(setUpdateOrder({ order: { ...order, stateSale: true } }))
+              Swal.fire(
+                'VENTA HECHA',
+                'La venta se genero correctamente',
+                'success'
+              );
+            }
+            if (result.isDismissed) {
+              const byteCharacters = atob(data.document);
+              const byteNumbers = new Array(byteCharacters.length);
+              for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+              }
+              const byteArray = new Uint8Array(byteNumbers);
+              const blob = new Blob([byteArray], { type: 'application/pdf' });
+              const pdfURL = window.URL.createObjectURL(blob)
+              printJS(pdfURL)
+            }
+          });
+
         }
       });
     } catch (error: any) {
@@ -86,7 +117,7 @@ export const useOrderStore = () => {
           const pdfURL = window.URL.createObjectURL(blob)
           printJS(pdfURL)
           //cambiar el estado
-          dispatch(setUpdateOrder({ order: {...order,stateSale:true} }))
+          dispatch(setUpdateOrder({ order: { ...order, stateSale: true } }))
           Swal.fire(
             'VENTA HECHA',
             'La venta se genero correctamente',
@@ -162,7 +193,7 @@ export const useOrderStore = () => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           await coffeApi.delete(`/order/${order.id}`);
-          dispatch(setUpdateOrder({ order: {...order,state:false} }))
+          dispatch(setUpdateOrder({ order: { ...order, state: false } }))
           Swal.fire(
             'Eliminado',
             'Orden eliminado correctamente',
@@ -205,6 +236,7 @@ export const useOrderStore = () => {
     //* Métodos
     getOrdersSold,
     getOrders,
+    addOrder,
     postCreateOrder,
     putUpdateOrderSold,
     putUpdateOrder,

@@ -16,16 +16,14 @@ export const SideNav = ({ open, onClose }: { open: boolean, onClose: any }) => {
 
   const { pathname } = useLocation();
   const theme = useTheme();
-  const lgUp = useMediaQuery(theme.breakpoints.up('md'));
+  const lgUp = useMediaQuery(theme.breakpoints.up('lg'));
 
   const content = (
     <Box component="nav" >
       <Stack
         sx={{
           listStyle: 'none',
-          p: 0,
-          m: 0,
-          px: 2,
+          px: 1,
           py: 3
         }}
       >
@@ -86,7 +84,7 @@ export const SideNav = ({ open, onClose }: { open: boolean, onClose: any }) => {
           sx: {
             backgroundColor: '#1E1F28',
             color: 'white',
-            width: 220
+            width: 190
           }
         }}
         variant="permanent"
@@ -105,7 +103,7 @@ export const SideNav = ({ open, onClose }: { open: boolean, onClose: any }) => {
         sx: {
           backgroundColor: '#1E1F28',
           color: 'white',
-          width: 220
+          width: 190
         }
       }}
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}

@@ -14,7 +14,6 @@ import { useCartStore, usePopover } from '@/hooks';
 import { AccountPopover } from '.';
 import noimage from '@/assets/images/profile.png';
 
-const SIDE_NAV_WIDTH = 200;
 const TOP_NAV_HEIGHT = 50;
 
 export const TopNav = (({ onNavOpen, onTapBadge }: { onNavOpen: any, onTapBadge: any }) => {
@@ -22,7 +21,7 @@ export const TopNav = (({ onNavOpen, onTapBadge }: { onNavOpen: any, onTapBadge:
   // const { data } = useSelector((state: any) => state.auth);
   const { cart = [] } = useCartStore();
   const theme = useTheme();
-  const lgUp = useMediaQuery(theme.breakpoints.up('md'));
+  const lgUp = useMediaQuery(theme.breakpoints.up('lg'));
 
   const accountPopover = usePopover();
 
@@ -34,12 +33,12 @@ export const TopNav = (({ onNavOpen, onTapBadge }: { onNavOpen: any, onTapBadge:
           backdropFilter: 'blur(6px)',
           backgroundColor: () => 'transparent',
           position: 'sticky',
-          left: {
-            lg: `${SIDE_NAV_WIDTH}px`
-          },
+          // left: {
+          //   lg: `${SIDE_NAV_WIDTH}px`
+          // },
           top: 0,
           width: {
-            lg: `calc(100% - ${SIDE_NAV_WIDTH}px)`
+            lg: `calc(100%)`
           },
           zIndex: (theme) => theme.zIndex.appBar
         }}

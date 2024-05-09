@@ -1,4 +1,3 @@
 export * from './OrderView';
-export * from './OrderTable';
-export * from './OutputTable';
-export * from './update/UpdateOrder';
+export * from './OrderCard';
+export * from './OrderByBranchOffice';

@@ -15,7 +15,7 @@ interface tableProps {
   limitInit?: number;
 }
 
-export const OrderTable = (props: tableProps) => {
+export const SaleTable = (props: tableProps) => {
   const {
     branchOfficeId,
     handleEdit,

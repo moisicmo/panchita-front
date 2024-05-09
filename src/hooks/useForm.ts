@@ -1,18 +1,16 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from "react";
 
 export const useForm = (initialForm: any = {}, formValidations: any = {}) => {
-
     const [formState, setFormState] = useState({ ...initialForm });
     const [formValidation, setFormValidation] = useState<string | any>({});
 
     useEffect(() => {
         createValidators();
-    }, [formState])
+    }, [formState]);
 
     useEffect(() => {
         setFormState({ ...initialForm });
-    }, [initialForm])
-
+    }, [initialForm]);
 
     const isFormValid = useMemo(() => {
         for (const formValue of Object.keys(formValidation)) {
@@ -20,77 +18,86 @@ export const useForm = (initialForm: any = {}, formValidations: any = {}) => {
         }
 
         return true;
-    }, [formValidation])
+    }, [formValidation]);
 
-
-
-    const onInputChange = ({ target }: { target: any }, uppercase = false, onlynumber = false) => {
-
+    const onInputChange = (
+        { target }: { target: any },
+        uppercase = false,
+        onlynumber = false
+    ) => {
         const { name, value } = target;
+
+
         if (onlynumber) {
+            if (value.length > 6) {
+                const truncatedValue = value.slice(0, 6);
+                return setFormState({
+                    ...formState,
+                    [name]: uppercase ? truncatedValue.toUpperCase() : truncatedValue,
+                });
+            }
+
             const regex = /^[0-9\b]+$/;
             return setFormState({
                 ...formState,
-                [name]: regex.test(value) ? value : ""
-            })
+                [name]: regex.test(value) ? value : "",
+            });
         }
         setFormState({
             ...formState,
-            [name]: uppercase ? value.toUpperCase() : value
-        })
-    }
+            [name]: uppercase ? value.toUpperCase() : value,
+        });
+    };
 
     const isSelectChange = (name: string, text: string) => {
         setFormState({
             ...formState,
-            [name]: text
-        })
-    }
+            [name]: text,
+        });
+    };
     const onFileChange = (name: string, file: File) => {
         setFormState({
             ...formState,
-            [name]: file
-        })
-    }
+            [name]: file,
+        });
+    };
 
     const onSwitchChange = (name: string, state: boolean) => {
         setFormState({
             ...formState,
-            [name]: state
-        })
-    }
+            [name]: state,
+        });
+    };
 
     const onArrayChange = (name: string, state: Array<any>) => {
         setFormState({
             ...formState,
-            [name]: state
-        })
-    }
+            [name]: state,
+        });
+    };
 
     const onValueChange = (name: string, state: any) => {
         setFormState({
             ...formState,
-            [name]: state
-        })
-    }
-
-
+            [name]: state,
+        });
+    };
 
     const onResetForm = () => {
         setFormState(initialForm);
-    }
+    };
 
     const createValidators = () => {
         const formCheckedValues: any = {};
         for (const formField of Object.keys(formValidations)) {
             const [fn, errorMessage] = formValidations[formField];
-            formCheckedValues[`${formField}Valid`] = fn(formState[formField]) ? null : errorMessage;
+            formCheckedValues[`${formField}Valid`] = fn(formState[formField])
+                ? null
+                : errorMessage;
         }
 
         setFormValidation(formCheckedValues);
-    }
-
-
+    };
 
     return {
         ...formState,
@@ -104,6 +111,6 @@ export const useForm = (initialForm: any = {}, formValidations: any = {}) => {
         onResetForm,
 
         ...formValidation,
-        isFormValid
-    }
-}
+        isFormValid,
+    };
+};

@@ -1,19 +1,41 @@
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material"
-import { SyntheticEvent, useEffect, useState } from "react";
-import { OrderTable, UpdateOrder } from ".";
 import { ExpandMore } from "@mui/icons-material";
-import { BranchOfficeModel, OrderModel, ProductModel } from '@/models';
-import { useBranchOfficeStore, useKardexProductStore } from "@/hooks";
-import { CartDrawer } from "@/views/layout/CartDrawer";
+import io from 'socket.io-client';
+import { SyntheticEvent, useEffect, useState } from "react";
+import { OrderByBranchOffice } from "."
+import { useBranchOfficeStore, useOrderStore } from "@/hooks";
+import { BranchOfficeModel } from "@/models";
+import { getEnvVariables } from "@/helpers";
+
 
 export const OrderView = () => {
   const { branchOffices = [], getBranchOffices } = useBranchOfficeStore();
-  const { kardexProductsSale = [] } = useKardexProductStore();
   const [expanded, setExpanded] = useState<string | false>(false);
-  const [order, setOrder] = useState<OrderModel | null>(null);
-  
+  const { addOrder } = useOrderStore();
+  const { VITE_HOST_BACKEND } = getEnvVariables();
+
   useEffect(() => {
     getBranchOffices()
+    // Conectar al servidor Socket.IO
+    const socket = io(VITE_HOST_BACKEND); // Reemplaza con la URL de tu servidor Socket.IO
+
+    // Manejar eventos del socket aquí
+    socket.on('connect', () => {
+      console.log('Conectado al servidor de Socket.IO');
+    });
+
+    // Manejar eventos de desconexión
+    socket.on('disconnect', () => {
+      console.log('Desconectado del servidor de Socket.IO');
+    });
+    // Escuchar el mensaje enviado desde el servidor
+    socket.on('newOrder', (message) => {
+      const newOrder = JSON.parse(message);
+      addOrder(newOrder);
+    });
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   const handleChange =
@@ -23,7 +45,7 @@ export const OrderView = () => {
 
   return (
     <>
-      <Typography variant="h6">Ordenes y ventas</Typography>
+      <Typography variant="h6">Entregas</Typography>
       {
         branchOffices.map((branchOffice: BranchOfficeModel) => {
           return (
@@ -37,67 +59,12 @@ export const OrderView = () => {
                 <Typography>{`${branchOffice.name}`}</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                {
-                  <OrderTable
-                    branchOfficeId={branchOffice.id}
-                    handleEdit={(order) => { setOrder(order) }}
-                  />
-                }
+                <OrderByBranchOffice
+                  branchOfficeId={branchOffice.id}
+                />
               </AccordionDetails>
             </Accordion>)
         })
-      }
-      {
-        order &&
-        <CartDrawer
-          onClose={() => { setOrder(null) }}
-          open={order != null} >
-          <UpdateOrder
-            order={order!}
-            addItem={(item) => {
-              const productSearch: ProductModel = kardexProductsSale.find((e: ProductModel) => e.id == item.product.id);
-              const orderSearch = order.outputs.find((e) => (e.product.id == productSearch.id));
-              const newOrder: OrderModel = {
-                ...order,
-                outputs: [
-                  ...order.outputs.map((e) => {
-                    if (e.product.id == orderSearch!.product.id) {
-                      if (e.quantity < orderSearch!.quantityOrigin! ) {
-                        return {
-                          ...e,
-                          quantity: e.quantity + 1
-                        };
-                      }
-                    }
-                    return e;
-                  })
-                ]
-              }
-              return setOrder(newOrder);
-            }}
-            removeItem={(item) => {
-              const productSearch: ProductModel = kardexProductsSale.find((e: ProductModel) => e.id == item.product.id);
-              const orderSearch = order.outputs.find((e) => (e.product.id == productSearch.id));
-              const newOrder: OrderModel = {
-                ...order,
-                outputs: [
-                  ...order.outputs.map((e) => {
-                    if (e.product.id == orderSearch!.product.id) {
-                      if (e.quantity > 0) {
-                        return {
-                          ...e,
-                          quantity: e.quantity - 1
-                        };
-                      }
-                    }
-                    return e;
-                  })
-                ]
-              }
-              return setOrder(newOrder);
-            }}
-          />
-        </CartDrawer>
       }
     </>
   )

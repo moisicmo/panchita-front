@@ -3,7 +3,7 @@ import { OrderModel, OutputModel } from "@/models"
 import { Stack, Typography } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { CardCart } from "../../cart";
-import { ProductSaleTable } from "../../sales";
+import { PointOfSaleTable } from "../../pointOfSale";
 import { useOrderStore } from "@/hooks";
 
 interface orderProps {
@@ -111,7 +111,7 @@ export const UpdateOrder = (props: orderProps) => {
           opendrawer={modalProductSale}
           handleDrawer={handleModalProductSale}
         >
-          <ProductSaleTable
+          <PointOfSaleTable
             limitInit={10}
             branchOffice={order.branchOffice}
             addItem={(output) => handleAdd(output)}

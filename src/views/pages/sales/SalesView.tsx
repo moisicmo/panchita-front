@@ -1,62 +1,103 @@
-import { BranchOfficeModel } from "@/models";
-import { Typography } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
-import { ComponentSelect, ModalSelectComponent } from "@/components";
-import { BranchOfficeTable } from "../branchOffices";
-import { ProductSaleTable } from ".";
-import { useBranchOfficeStore, useCartStore } from "@/hooks";
+import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material"
+import { SyntheticEvent, useEffect, useState } from "react";
+import { SaleTable, UpdateOrder } from ".";
+import { ExpandMore } from "@mui/icons-material";
+import { BranchOfficeModel, OrderModel, ProductModel } from '@/models';
+import { useBranchOfficeStore, useKardexProductStore } from "@/hooks";
+import { CartDrawer } from "@/views/layout/CartDrawer";
 
-export const SalesView = () => {
+export const SaleView = () => {
   const { branchOffices = [], getBranchOffices } = useBranchOfficeStore();
-  const [branchOffice, setBranchOffice] = useState<BranchOfficeModel | null>(null);
-  const [modalBranchOffice, setModalBranchOffice] = useState(false);
-  const { addCard, removeCard } = useCartStore();
+  const { kardexProductsSale = [] } = useKardexProductStore();
+  const [expanded, setExpanded] = useState<string | false>(false);
+  const [order, setOrder] = useState<OrderModel | null>(null);
   
-  const handleModalBranchOffice = useCallback((value: boolean) => {
-    setModalBranchOffice(value);
+  useEffect(() => {
+    getBranchOffices()
   }, []);
 
-  useEffect(() => {
-    getBranchOffices();
-  }, []);
+  const handleChange =
+    (panel: string) => (_event: SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
+
   return (
     <>
+      <Typography variant="h6">Ordenes y ventas</Typography>
       {
-        modalBranchOffice &&
-        <ModalSelectComponent
-          stateSelect={true}
-          stateMultiple={false}
-          title='Sucursales:'
-          opendrawer={modalBranchOffice}
-          handleDrawer={handleModalBranchOffice}
-        >
-          <BranchOfficeTable
-            limitInit={5}
-            stateSelect={true}
-            itemSelect={(v) => {
-              if (branchOffice == null || branchOffice.id != v.id) {
-                // onValueChange('categoryId', v)
-                setBranchOffice(v);
-                handleModalBranchOffice(false)
-              }
-            }}
-            items={branchOffice == null ? [] : [branchOffice.id]}
-          />
-        </ModalSelectComponent>
+        branchOffices.map((branchOffice: BranchOfficeModel) => {
+          return (
+            <Accordion
+              key={`${branchOffice.id}`}
+              expanded={branchOffices.length == 1 ? true : expanded === `${branchOffice.id}`}
+              onChange={handleChange(`${branchOffice.id}`)}
+              defaultExpanded={branchOffices.length > 0}
+            >
+              <AccordionSummary expandIcon={<ExpandMore />} >
+                <Typography>{`${branchOffice.name}`}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                {
+                  <SaleTable
+                    branchOfficeId={branchOffice.id}
+                    handleEdit={(order) => { setOrder(order) }}
+                  />
+                }
+              </AccordionDetails>
+            </Accordion>)
+        })
       }
-      <Typography variant="h6">Punto de venta</Typography>
-      <ComponentSelect
-        label={branchOffice != null ? 'Sucursal' : ''}
-        title={branchOffice != null ? branchOffice.name : 'Sucursal'}
-        onPressed={() => handleModalBranchOffice(true)}
-      />
       {
-        branchOffices.length == 1 && 
-        <ProductSaleTable
-          branchOffice={branchOffices.length == 1?  branchOffices[0]: branchOffice}
-          addItem={(product)=>addCard(product ,branchOffices.length == 1?  branchOffices[0]: branchOffice)}
-          removeItem={(product)=>removeCard(product)}
-        />
+        order &&
+        <CartDrawer
+          onClose={() => { setOrder(null) }}
+          open={order != null} >
+          <UpdateOrder
+            order={order!}
+            addItem={(item) => {
+              const productSearch: ProductModel = kardexProductsSale.find((e: ProductModel) => e.id == item.product.id);
+              const orderSearch = order.outputs.find((e) => (e.product.id == productSearch.id));
+              const newOrder: OrderModel = {
+                ...order,
+                outputs: [
+                  ...order.outputs.map((e) => {
+                    if (e.product.id == orderSearch!.product.id) {
+                      if (e.quantity < orderSearch!.quantityOrigin! ) {
+                        return {
+                          ...e,
+                          quantity: e.quantity + 1
+                        };
+                      }
+                    }
+                    return e;
+                  })
+                ]
+              }
+              return setOrder(newOrder);
+            }}
+            removeItem={(item) => {
+              const productSearch: ProductModel = kardexProductsSale.find((e: ProductModel) => e.id == item.product.id);
+              const orderSearch = order.outputs.find((e) => (e.product.id == productSearch.id));
+              const newOrder: OrderModel = {
+                ...order,
+                outputs: [
+                  ...order.outputs.map((e) => {
+                    if (e.product.id == orderSearch!.product.id) {
+                      if (e.quantity > 0) {
+                        return {
+                          ...e,
+                          quantity: e.quantity - 1
+                        };
+                      }
+                    }
+                    return e;
+                  })
+                ]
+              }
+              return setOrder(newOrder);
+            }}
+          />
+        </CartDrawer>
       }
     </>
   )

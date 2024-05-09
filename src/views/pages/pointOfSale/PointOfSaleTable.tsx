@@ -15,7 +15,7 @@ interface tableProps {
   cartOrder?: OutputModel[];
 }
 
-export const ProductSaleTable = (props: tableProps) => {
+export const PointOfSaleTable = (props: tableProps) => {
   const {
     branchOffice,
     limitInit = 10,
@@ -104,7 +104,7 @@ export const ProductSaleTable = (props: tableProps) => {
                           variant="outlined"
                           maxWidth="36px"
                           minWidth="36px"
-                          onClick={() => handleAdd(product)}
+                          onClick={() => product.stock >0?handleAdd(product):null}
                           startIcon={<SvgIcon fontSize="small"><Add /></SvgIcon>} />
                         {
                           item && item.quantity > 0 &&

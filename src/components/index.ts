@@ -10,3 +10,4 @@ export * from './SwitchDiscount';
 export * from './Date';
 export * from './SelectPicker';
 export * from './DateRange';
+export * from './Chart';

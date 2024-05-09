@@ -13,39 +13,41 @@ import { CustomersView } from '@/views/pages/customers';
 import { CustomerCreditsView } from '@/views/pages/customerCredits';
 import { ProductsView } from '@/views/pages/products';
 import { MovementsView } from '@/views/pages/movements';
-import { SalesView } from '@/views/pages/sales';
-import { OrderView } from '@/views/pages/orders';
+import { PointOfSaleView } from '@/views/pages/pointOfSale';
+import { SaleView } from '@/views/pages/sales';
 import { ReportView } from '@/views/pages/report';
+import { OrderView } from '@/views/pages/orders';
 
 export const AppRouter = () => {
 
-    const { status, checkAuthToken } = useAuthStore();
-    useEffect(() => {
-        checkAuthToken();
-    }, []);
+  const { status, checkAuthToken } = useAuthStore();
+  useEffect(() => {
+    checkAuthToken();
+  }, []);
 
-    return (
-        (status === 'not-authenticated') ?
-            <AuthPage />
-            :
-            <Layout>
-                <Routes>
-                    <Route path='/dashboardView' element={<DashboardView />} />
-                    <Route path='/BranchOfficesView' element={<BranchOfficesView />} />
-                    <Route path='/permissionsView' element={<PermissionsView />} />
-                    <Route path='/rolesView' element={<RolesView />} />
-                    <Route path='/usersView' element={<UsersView />} />
-                    <Route path='/customersView' element={<CustomersView />} />
-                    <Route path='/customerCreditsView' element={<CustomerCreditsView />} />
-                    <Route path='/productsView' element={<ProductsView />} />
-                    <Route path='/movementsView' element={<MovementsView />} />
-                    <Route path='/salesView' element={<SalesView />} />
-                    <Route path='/orderView' element={<OrderView />} />
-                    <Route path='/ReportView' element={<ReportView />} />
+  return (
+    (status === 'not-authenticated') ?
+      <AuthPage />
+      :
+      <Layout>
+        <Routes>
+          <Route path='/dashboardView' element={<DashboardView />} />
+          <Route path='/BranchOfficesView' element={<BranchOfficesView />} />
+          <Route path='/permissionsView' element={<PermissionsView />} />
+          <Route path='/rolesView' element={<RolesView />} />
+          <Route path='/usersView' element={<UsersView />} />
+          <Route path='/customersView' element={<CustomersView />} />
+          <Route path='/customerCreditsView' element={<CustomerCreditsView />} />
+          <Route path='/productsView' element={<ProductsView />} />
+          <Route path='/movementsView' element={<MovementsView />} />
+          <Route path='/salesView' element={<SaleView />} />
+          <Route path='/ordersView' element={<OrderView />} />
+          <Route path='/pointSalesView' element={<PointOfSaleView />} />
+          <Route path='/reportView' element={<ReportView />} />
 
-                    {/*  */}
-                    <Route path="/*" element={<Navigate to={"/dashboardView"} />} />
-                </Routes>
-            </Layout>
-    )
+          {/*  */}
+          <Route path="/*" element={<Navigate to={"/dashboardView"} />} />
+        </Routes>
+      </Layout>
+  )
 }

@@ -5,13 +5,13 @@ import { SideNav, TopNav } from '.';
 import { CartDrawer } from './CartDrawer';
 import { CartView } from '../pages/cart';
 
-const SIDE_NAV_WIDTH = 220;
+const SIDE_NAV_WIDTH = 190;
 
 const LayoutRoot = styled('div')(({ theme }) => ({
   display: 'flex',
   flex: '1 1 auto',
   maxWidth: '100%',
-  [theme.breakpoints.up('md')]: {
+  [theme.breakpoints.up('lg')]: {
     paddingLeft: SIDE_NAV_WIDTH
   }
 }));

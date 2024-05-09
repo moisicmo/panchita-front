@@ -10,6 +10,7 @@ export interface OrderModel {
   outputs: OutputModel[];
   amount: number;
   stateSale:boolean;
+  delivery:boolean;
   state:boolean;
   createdAt: Date;
 }
