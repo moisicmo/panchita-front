@@ -22,27 +22,20 @@ export const useForm = (initialForm: any = {}, formValidations: any = {}) => {
 
     const onInputChange = (
         { target }: { target: any },
+        onlynumber = false,
         uppercase = false,
-        onlynumber = false
     ) => {
         const { name, value } = target;
 
-
         if (onlynumber) {
-            if (value.length > 6) {
-                const truncatedValue = value.slice(0, 6);
-                return setFormState({
-                    ...formState,
-                    [name]: uppercase ? truncatedValue.toUpperCase() : truncatedValue,
-                });
-            }
-
+            if (value.length > 8) return;
             const regex = /^[0-9\b]+$/;
             return setFormState({
                 ...formState,
                 [name]: regex.test(value) ? value : "",
             });
         }
+        if (value.length > 50) return;
         setFormState({
             ...formState,
             [name]: uppercase ? value.toUpperCase() : value,

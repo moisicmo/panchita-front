@@ -152,7 +152,7 @@ export const CreateInputProduct = (props: createProps) => {
                   label="Cantidad"
                   name="quantity"
                   value={quantity}
-                  onChange={onInputChange}
+                  onChange={(V: string) => onInputChange(V, true)}
                   error={!!quantityValid && formSubmitted}
                   helperText={formSubmitted ? quantityValid : ''}
                 />
@@ -163,7 +163,7 @@ export const CreateInputProduct = (props: createProps) => {
                   label="Precio"
                   name="price"
                   value={price}
-                  onChange={onInputChange}
+                  onChange={(V: string) => onInputChange(V, true)}
                   error={!!priceValid && formSubmitted}
                   helperText={formSubmitted ? priceValid : ''}
                 />

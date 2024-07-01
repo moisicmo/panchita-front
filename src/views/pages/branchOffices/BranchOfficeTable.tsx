@@ -57,7 +57,7 @@ export const BranchOfficeTable = (props: tableProps) => {
           <TableHead>
             <TableRow sx={{ backgroundColor: '#E2F6F0' }}>
               {stateSelect && <TableCell />}
-              <TableCell sx={{ fontWeight: 'bold' }}>Tipo de sucursal</TableCell>
+              {/* <TableCell sx={{ fontWeight: 'bold' }}>Tipo de sucursal</TableCell> */}
               <TableCell sx={{ fontWeight: 'bold' }}>Nombre</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Dirección</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Teléfono</TableCell>
@@ -77,7 +77,7 @@ export const BranchOfficeTable = (props: tableProps) => {
                       />
                     </TableCell>
                   }
-                  <TableCell>{branchOffice.typeBranchOffice}</TableCell>
+                  {/* <TableCell>{branchOffice.typeBranchOffice}</TableCell> */}
                   <TableCell>{branchOffice.name}</TableCell>
                   <TableCell>{branchOffice.address}</TableCell>
                   <TableCell>{branchOffice.phone}</TableCell>

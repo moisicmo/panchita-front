@@ -11,7 +11,7 @@ interface createProps {
 }
 
 const formFields: FormBranchOfficeModel = {
-  typeBranchOffice: '',
+  typeBranchOffice: 'tienda',
   name: '',
   address: '',
   phone: 0
@@ -36,7 +36,8 @@ export const CreateBranchOffice = (props: createProps) => {
   const {
     typeBranchOffice, name, address, phone,
     onInputChange, isFormValid,
-    typeBranchOfficeValid, nameValid, addressValid, phoneValid, onResetForm } = useForm(item ?? formFields, formValidations);
+    // typeBranchOfficeValid, 
+    nameValid, addressValid, phoneValid, onResetForm } = useForm(item ?? formFields, formValidations);
 
   const sendSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -72,7 +73,7 @@ export const CreateBranchOffice = (props: createProps) => {
         <form onSubmit={sendSubmit}>
           <DialogContent sx={{ display: 'flex' }}>
             <Grid container>
-              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+              {/* <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                 <ComponentInput
                   type="text"
                   label="Tipo de sucursal"
@@ -82,7 +83,7 @@ export const CreateBranchOffice = (props: createProps) => {
                   error={!!typeBranchOfficeValid && formSubmitted}
                   helperText={formSubmitted ? typeBranchOfficeValid : ''}
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                 <ComponentInput
                   type="text"
@@ -111,7 +112,7 @@ export const CreateBranchOffice = (props: createProps) => {
                   label="Telefono"
                   name="phone"
                   value={phone}
-                  onChange={onInputChange}
+                  onChange={(V: string) => onInputChange(V, true)}
                   error={!!phoneValid && formSubmitted}
                   helperText={formSubmitted ? phoneValid : ''}
                 />

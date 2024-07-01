@@ -31,7 +31,7 @@ export const KardexTable = (props: tableProps) => {
                 <TableRow
                   key={KardexModel.id}
                   sx={{
-                    backgroundColor: KardexModel.inputOrOutputType === 'inputs' ? '#FFCDD2' : '#C8E6C9',
+                    backgroundColor: KardexModel.inputOrOutputType === 'inputs' ? '#FFc04c' : '#C8E6C9',
                   }}
                 >
                   <TableCell>{KardexModel.detail}</TableCell>

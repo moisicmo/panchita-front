@@ -184,12 +184,12 @@ export const CreateUser = (props: createProps) => {
                   label="Número de carnet"
                   name="numberDocument"
                   value={numberDocument}
-                  onChange={onInputChange}
+                  onChange={(V: string) => onInputChange(V, true)}
                   error={!!numberDocumentValid && formSubmitted}
                   helperText={formSubmitted ? numberDocumentValid : ''}
                 />
               </Grid>
-              <Grid item xs={12} sm={4} sx={{ padding: '5px' }}>
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                 <ComponentInput
                   type="text"
                   label="Nombre"
@@ -200,7 +200,7 @@ export const CreateUser = (props: createProps) => {
                   helperText={formSubmitted ? nameValid : ''}
                 />
               </Grid>
-              <Grid item xs={12} sm={4} sx={{ padding: '5px' }}>
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                 <ComponentInput
                   type="text"
                   label="Apellido"
@@ -228,12 +228,12 @@ export const CreateUser = (props: createProps) => {
                   label="Teléfono"
                   name="phone"
                   value={phone}
-                  onChange={onInputChange}
+                  onChange={(V: string) => onInputChange(V, true)}
                   error={!!phoneValid && formSubmitted}
                   helperText={formSubmitted ? phoneValid : ''}
                 />
               </Grid>
-              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+              <Grid item xs={12} sm={4} sx={{ padding: '5px' }}>
                 <ComponentSelect
                   label={roleId != null ? 'Rol' : ''}
                   title={roleId != null ? roleId.name : 'Rol'}

@@ -145,7 +145,7 @@ export const CreateCustomer = (props: createProps) => {
                   label="Teléfono"
                   name="phone"
                   value={phone}
-                  onChange={onInputChange}
+                  onChange={(V: string) => onInputChange(V, true)}
                   error={!!phoneValid && formSubmitted}
                   helperText={formSubmitted ? phoneValid : ''}
                 />
@@ -165,7 +165,7 @@ export const CreateCustomer = (props: createProps) => {
                   label="Numero de documento"
                   name="numberDocument"
                   value={numberDocument}
-                  onChange={onInputChange}
+                  onChange={(V: string) => onInputChange(V, true)}
                   error={!!numberDocumentValid && formSubmitted}
                   helperText={formSubmitted ? numberDocumentValid : ''}
                 />

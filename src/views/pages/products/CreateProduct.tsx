@@ -151,7 +151,7 @@ export const CreateProduct = (props: createProps) => {
                   label="Precio"
                   name="price"
                   value={price}
-                  onChange={onInputChange}
+                  onChange={(V: string) => onInputChange(V, true)}
                   error={!!priceValid && formSubmitted}
                   helperText={formSubmitted ? priceValid : ''}
                 />
@@ -162,7 +162,7 @@ export const CreateProduct = (props: createProps) => {
                   label="Descuento"
                   name="discount"
                   value={discount}
-                  onChange={onInputChange}
+                  onChange={(V: string) => onInputChange(V, true)}
                 />
               </Grid>
               <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>

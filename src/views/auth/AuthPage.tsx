@@ -39,7 +39,7 @@ export const AuthPage = () => {
         {/* <img src={imagelogo} alt="Descripción de la imagen" style={{ maxHeight: '80%', maxWidth: '80%' }} /> */}
       </Grid>
       <Grid item xs={12} sm={6} container justifyContent="center" alignItems="center" style={{ display: 'flex', flexDirection: 'column' }}>
-        <Typography>GESTION DE INVENTARIOS</Typography>
+        <Typography>SUPER BALANCE</Typography>
         <form onSubmit={loginSubmit}>
           <ComponentInput
             type="email"
