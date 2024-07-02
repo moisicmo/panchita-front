@@ -1,27 +1,78 @@
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# TAREAS
 
-Currently, two official plugins are available:
+## SUCURSALES
+✅ listar sucursales
+✅ crear sucursal
+✅ editar sucursl
+✅ eliminar sucursal
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## USUARIOS
+✅ listar usuarios
+✅ crear usuario
+✅ editar usuario
+✅ eliminar usuario
 
-## Expanding the ESLint configuration
+## ROLLES
+✅ listar roles
+✅ crear rol
+✅ editar rol
+✅ elimiminar rol
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## PERMISOS
+✅ listar permisos
 
-- Configure the top-level `parserOptions` property like this:
+## CLIENTES
+✅ listar clientes
+✅ crear cliente
+✅ editar cliente
+✅ elimnar cliente
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+## CATEGORIAS
+✅ listar categorias
+✅ crear categoria
+✅ editar categoria
+✅ eliminar categoria
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## UNIDADES DE MEDIDA
+✅ listar unidades de medida
+✅ crear unidad de medida
+✅ editar unidad de medida
+✅ eliminar unidad de medida
+
+## PRODUCTOS
+✅ listar productos
+✅ crear producto
+✅ editar producto
+✅ eliminar producto
+
+## MOVIMIENTOS
+✅ listar movimientos
+✅ crear producto (❕❕❕❕❕ revisar fecha de vencimiento)
+
+## PUNTO DE VENTA
+✅ venta
+
+## ORDENES Y VENTAS
+✅ listar de ordenes o ventas
+✅ vender una orden
+✅ descargar pdf
+✅ anular una venta o revertir una orden
+
+## ENTREGAS
+✅ mostrar entregas en tiempo real
+❌ hacer entrega de la orden
+
+## DASHBOARD
+✅ tablero de cantidad de clientes
+✅ tablero de cantidad de sucursales
+✅ tablero de cantidad de productos
+✅ tablero de cantidad de ordenes
+✅ tablero de cantidad de ventas
+
+## REPORTES
+❌ no hay reportes
+
+## FUNCIONALIDAD DE PERMISOS
+❌ no hay

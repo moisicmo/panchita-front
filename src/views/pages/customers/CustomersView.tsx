@@ -37,7 +37,7 @@ export const CustomersView = () => {
         <CreateCustomer
           open={openDialog}
           handleClose={() => handleDialog(false)}
-          item={itemEdit == null ? null : { ...itemEdit, ...itemEdit?.user }}
+          item={itemEdit == null ? null : { ...itemEdit, ...itemEdit?.user,id:itemEdit.id }}
         />
       }
     </>

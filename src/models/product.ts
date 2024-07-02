@@ -24,14 +24,14 @@ export interface FormProductModel {
     price: number;
     discount: number;
     typeDiscount: string;
-    categoryId: CategoryModel | null;
-    measurementUnitId: MeasurementUnitModel | null;
+    category: CategoryModel | null;
+    measurementUnit: MeasurementUnitModel | null;
 }
 
 /*FORM PRODUCT VALIDATIONS */
 export interface FormProductValidations {
     name: [(value: string) => boolean, string];
     price: [(value: number) => boolean, string];
-    categoryId: [(value: CategoryModel) => boolean, string];
-    measurementUnitId: [(value: MeasurementUnitModel) => boolean, string];
+    category: [(value: CategoryModel) => boolean, string];
+    measurementUnit: [(value: MeasurementUnitModel) => boolean, string];
 }

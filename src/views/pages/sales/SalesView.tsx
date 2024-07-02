@@ -38,6 +38,7 @@ export const SaleView = () => {
               </AccordionSummary>
               <AccordionDetails>
                 {
+                   (expanded === `${branchOffice.id}`) &&
                   <SaleTable
                     branchOfficeId={branchOffice.id}
                     handleEdit={(order) => { setOrder(order) }}

@@ -17,15 +17,15 @@ const formFields: FormProductModel = {
   price: 0,
   discount: 0,
   typeDiscount: 'monto',
-  categoryId: null,
-  measurementUnitId: null,
+  category: null,
+  measurementUnit: null,
 }
 
 const formValidations: FormProductValidations = {
   name: [(value: string) => value.length >= 1, 'Debe ingresar el nombre'],
   price: [(value: number) => value != 0, 'Debe ingresar un precio'],
-  categoryId: [(value: CategoryModel) => value != null, 'Debe ingresar una categoria'],
-  measurementUnitId: [(value: MeasurementUnitModel) => value != null, 'Debe ingresar una unidad de medida'],
+  category: [(value: CategoryModel) => value != null, 'Debe ingresar una categoria'],
+  measurementUnit: [(value: MeasurementUnitModel) => value != null, 'Debe ingresar una unidad de medida'],
 }
 
 export const CreateProduct = (props: createProps) => {
@@ -38,7 +38,7 @@ export const CreateProduct = (props: createProps) => {
 
   const [formSubmitted, setFormSubmitted] = useState(false);
   const {
-    name, price, discount, typeDiscount, categoryId, measurementUnitId,
+    name, price, discount, typeDiscount, category, measurementUnit,
     onInputChange, isFormValid, onResetForm, onValueChange,
     nameValid, priceValid, categoryIdValid, measurementUnitIdValid,
   } = useForm(item ?? formFields, formValidations);
@@ -52,8 +52,8 @@ export const CreateProduct = (props: createProps) => {
       postCrateProduct(
         {
           businessId: 1,
-          categoryId: categoryId.id,
-          measurementUnitId: measurementUnitId.id,
+          categoryId: category.id,
+          measurementUnitId: measurementUnit.id,
           name: name.trim(),
           barCode: '0',
           price: price,
@@ -64,8 +64,8 @@ export const CreateProduct = (props: createProps) => {
       putUpdateProduct(item.id,
         {
           businessId: 1,
-          categoryId: categoryId.id,
-          measurementUnitId: measurementUnitId.id,
+          categoryId: category.id,
+          measurementUnitId: measurementUnit.id,
           name: name.trim(),
           barCode: '0',
           price: price,
@@ -99,12 +99,12 @@ export const CreateProduct = (props: createProps) => {
           <CategoryTable
             limitInit={5}
             itemSelect={(v) => {
-              if (categoryId == null || categoryId.id != v.id) {
-                onValueChange('categoryId', v)
+              if (category == null || category.id != v.id) {
+                onValueChange('category', v)
                 handleModalCategory(false)
               }
             }}
-            items={categoryId == null ? [] : [categoryId.id]}
+            items={category == null ? [] : [category.id]}
           />
         </ModalSelectComponent>
       }
@@ -120,12 +120,12 @@ export const CreateProduct = (props: createProps) => {
           <MeasurementUnitTable
             limitInit={5}
             itemSelect={(v) => {
-              if (measurementUnitId == null || measurementUnitId.id != v.id) {
-                onValueChange('measurementUnitId', v)
+              if (measurementUnit == null || measurementUnit.id != v.id) {
+                onValueChange('measurementUnit', v)
                 handleModalMeasurementUnit(false)
               }
             }}
-            items={measurementUnitId == null ? [] : [measurementUnitId.id]}
+            items={measurementUnit == null ? [] : [measurementUnit.id]}
           />
         </ModalSelectComponent>
       }
@@ -184,8 +184,8 @@ export const CreateProduct = (props: createProps) => {
               </Grid>
               <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                 <ComponentSelect
-                  label={categoryId != null ? 'Categoria' : ''}
-                  title={categoryId != null ? categoryId.name : 'Categoria'}
+                  label={category != null ? 'Categoria' : ''}
+                  title={category != null ? category.name : 'Categoria'}
                   onPressed={() => handleModalCategory(true)}
                   error={!!categoryIdValid && formSubmitted}
                   helperText={formSubmitted ? categoryIdValid : ''}
@@ -193,8 +193,8 @@ export const CreateProduct = (props: createProps) => {
               </Grid>
               <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                 <ComponentSelect
-                  label={measurementUnitId != null ? 'Unidad de medida' : ''}
-                  title={measurementUnitId != null ? measurementUnitId.name : 'Unidad de medida'}
+                  label={measurementUnit != null ? 'Unidad de medida' : ''}
+                  title={measurementUnit != null ? measurementUnit.name : 'Unidad de medida'}
                   onPressed={() => handleModalMeasurementUnit(true)}
                   error={!!measurementUnitIdValid && formSubmitted}
                   helperText={formSubmitted ? measurementUnitIdValid : ''}
