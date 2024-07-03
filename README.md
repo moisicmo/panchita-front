@@ -29,6 +29,9 @@
 ✅ editar cliente
 ✅ elimnar cliente
 
+## TIPOS DE DOCUMENTOS
+✅ listar tipos de documentos
+
 ## CATEGORIAS
 ✅ listar categorias
 ✅ crear categoria

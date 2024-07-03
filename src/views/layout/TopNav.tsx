@@ -9,7 +9,6 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { MenuOutlined, ShoppingCart } from '@mui/icons-material';
-// import { useSelector } from 'react-redux';
 import { useCartStore, usePopover } from '@/hooks';
 import { AccountPopover } from '.';
 import noimage from '@/assets/images/profile.png';
@@ -18,7 +17,6 @@ const TOP_NAV_HEIGHT = 50;
 
 export const TopNav = (({ onNavOpen, onTapBadge }: { onNavOpen: any, onTapBadge: any }) => {
 
-  // const { data } = useSelector((state: any) => state.auth);
   const { cart = [] } = useCartStore();
   const theme = useTheme();
   const lgUp = useMediaQuery(theme.breakpoints.up('lg'));
@@ -92,9 +90,6 @@ export const TopNav = (({ onNavOpen, onTapBadge }: { onNavOpen: any, onTapBadge:
         anchorEl={accountPopover.anchorRef.current}
         open={accountPopover.open}
         onClose={accountPopover.handleClose}
-        onTapSettings={() => {
-          accountPopover.handleClose();
-        }}
       />
     </>
   );

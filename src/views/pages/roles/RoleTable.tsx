@@ -69,7 +69,6 @@ export const RoleTable = (props: tableProps) => {
             {roleList.map((role: RoleModel) => {
               const isSelected = items.includes(role.id);
               return (
-                <>
                 <TableRow key={role.id} >
                   {
                     stateSelect && <TableCell padding="checkbox">
@@ -106,7 +105,6 @@ export const RoleTable = (props: tableProps) => {
                     </TableCell>
                   }
                 </TableRow>
-                </>
               );
             })}
           </TableBody>

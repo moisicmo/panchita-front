@@ -3,7 +3,7 @@ import { Box, Divider, MenuItem, MenuList, Popover, Typography } from '@mui/mate
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/hooks';
 
-export const AccountPopover = ({ anchorEl, onClose, open, onTapSettings }: { anchorEl: any, onClose: any, open: boolean, onTapSettings: any }) => {
+export const AccountPopover = ({ anchorEl, onClose, open }: { anchorEl: any, onClose: any, open: boolean }) => {
 
   const navigate = useNavigate();
   const { startLogout } = useAuthStore();
@@ -46,9 +46,6 @@ export const AccountPopover = ({ anchorEl, onClose, open, onTapSettings }: { anc
           }
         }}
       >
-        <MenuItem onClick={() => onTapSettings()} >
-          Configuraciones
-        </MenuItem>
         <MenuItem
           onClick={() => {
             startLogout();
