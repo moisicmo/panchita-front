@@ -1,6 +1,6 @@
 import { ComponentButton, ComponentSearch, ComponentTablePagination } from "@/components";
-import { useKardexProductStore, useOrderStore } from "@/hooks";
-import { OrderModel } from "@/models";
+import { useAuthStore, useKardexProductStore, useOrderStore } from "@/hooks";
+import { OrderModel, PermissionModel, RoleModel } from "@/models";
 import { applyPagination } from "@/utils/applyPagination";
 import { DeleteOutline, Download, EditOutlined, KeyboardArrowDownOutlined, KeyboardArrowUpOutlined } from "@mui/icons-material";
 import { IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
@@ -21,6 +21,8 @@ export const SaleTable = (props: tableProps) => {
     handleEdit,
     limitInit = 10,
   } = props;
+
+  const { roleUser } = useAuthStore();
   const { getProductsKardexByBranchOffice } = useKardexProductStore();
   const { orders = [], getOrders, getDocumentOrder, putUpdateOrderSold, deleteOrder } = useOrderStore();
   const [page, setPage] = useState(0);
@@ -95,20 +97,24 @@ export const SaleTable = (props: tableProps) => {
                             direction="row"
                             spacing={2}
                           >
-                            {!order.stateSale && <IconButton onClick={() => handleEdit(order)} >
+                            {!order.stateSale && <IconButton onClick={() => handleEdit(order)}
+                              disabled={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "editar orden")}>
                               <EditOutlined color="info" />
                             </IconButton>}
                             {!order.stateSale && <ComponentButton
                               text="Vender"
                               onClick={() => putUpdateOrderSold(order)}
+                              disable={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "vender")}
                             />}
                             <IconButton
                               onClick={() => getDocumentOrder(order.id)}
+                              disabled={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "descargar pdf")}
                             >
                               <Download color="info" />
                             </IconButton>
                             <IconButton
                               onClick={() => deleteOrder(order)}
+                              disabled={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "eliminar orden o venta")}
                             >
                               <DeleteOutline color="error" />
                             </IconButton>

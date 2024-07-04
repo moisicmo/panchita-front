@@ -1,11 +1,11 @@
 import { ComponentButton, ComponentSearch, ComponentTablePagination } from "@/components";
-import { useMeasurementUnitStore } from '@/hooks';
+import { useAuthStore, useMeasurementUnitStore } from '@/hooks';
 import { applyPagination } from "@/utils/applyPagination";
 import { Checkbox, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { CreateMeasurementUnit } from ".";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
-import { MeasurementUnitModel } from "@/models";
+import { MeasurementUnitModel, PermissionModel, RoleModel } from "@/models";
 
 interface tableProps {
   limitInit?: number;
@@ -20,6 +20,7 @@ export const MeasurementUnitTable = (props: tableProps) => {
     items = [],
   } = props;
 
+  const { roleUser } = useAuthStore();
   const { measurementUnits = [], getMeasurementUnits, deleteMeasurementUnit } = useMeasurementUnitStore();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(limitInit);
@@ -64,6 +65,7 @@ export const MeasurementUnitTable = (props: tableProps) => {
         <ComponentButton
           text="Crear Unidad de medida"
           onClick={() => handleDialog(true)}
+          disable={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "crear unidad de medida")}
         />
       </Stack>
 
@@ -97,10 +99,12 @@ export const MeasurementUnitTable = (props: tableProps) => {
                       <IconButton onClick={() => {
                         setItemEdit(measurementUnit);
                         handleDialog(true);
-                      }} >
+                      }}
+                        disabled={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "editar unidad de medida")} >
                         <EditOutlined color="info" />
                       </IconButton>
-                      <IconButton onClick={() => deleteMeasurementUnit(measurementUnit.id)} >
+                      <IconButton onClick={() => deleteMeasurementUnit(measurementUnit.id)}
+                        disabled={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "eliminar unidad de medida")} >
                         <DeleteOutline color="error" />
                       </IconButton>
                     </Stack>

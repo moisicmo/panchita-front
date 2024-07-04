@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { coffeApi } from '@/services';
-import { setAddOrder, setClearAllCart, setKardexProductSale, setOrders, setOrdersSold, setUpdateOrder } from '@/store';
+import { setAddOrder, setClearAllCart, setKardexProductSale, setOrders, setOrdersSold, setUpdateOrder,setDeleteOrder } from '@/store';
 import Swal from 'sweetalert2';
 import printJS from 'print-js';
 import { OrderModel } from '@/models';
@@ -16,15 +16,28 @@ export const useOrderStore = () => {
     console.log(data)
     dispatch(setOrdersSold({ ordersSold: data.sales }));
   }
+
   const getOrders = async (branchOfficeId: number) => {
     console.log('OBTENIENDO ORDENES')
     const { data } = await coffeApi.get(`/order/${branchOfficeId}`);
     console.log(data)
     dispatch(setOrders({ orders: data.orders }));
   }
+
   const addOrder = async (order: OrderModel) => {
     dispatch(setAddOrder({ order }));
   }
+  const removeOrderSocket = async (orderId: number) => {
+    dispatch(setDeleteOrder({ id:orderId }));
+  }
+
+  const dispatchOrder = async (orderId: number)=>{
+    console.log('ENTREGANDO ORDEN')
+    const { data } = await coffeApi.post(`/order/dispatch/${orderId}`);
+    console.log(data)
+    dispatch(setUpdateOrder({ order: data.order }));
+  }
+
   const postCreateOrder = async (body: object) => {
     try {
       console.log('GENERANDO UNA ORDEN')
@@ -68,11 +81,7 @@ export const useOrderStore = () => {
               printJS(pdfURL)
               //cambiar el estado
               dispatch(setUpdateOrder({ order: { ...order, stateSale: true } }))
-              Swal.fire(
-                'VENTA HECHA',
-                'La venta se genero correctamente',
-                'success'
-              );
+              successfulSale(order.id);
             }
             if (result.isDismissed) {
               const byteCharacters = atob(data.document);
@@ -117,12 +126,8 @@ export const useOrderStore = () => {
           const pdfURL = window.URL.createObjectURL(blob)
           printJS(pdfURL)
           //cambiar el estado
-          dispatch(setUpdateOrder({ order: { ...order, stateSale: true } }))
-          Swal.fire(
-            'VENTA HECHA',
-            'La venta se genero correctamente',
-            'success'
-          )
+          await dispatch(setUpdateOrder({ order: { ...order, stateSale: true } }))
+          successfulSale(order.id);
         } else {
           Swal.fire(
             'Cancelado',
@@ -132,6 +137,37 @@ export const useOrderStore = () => {
         }
       });
 
+    } catch (error: any) {
+      Swal.fire('Oops ocurrió algo', error.response.data.errors[0].msg, 'error');
+    }
+  }
+  const successfulSale =(orderId:number)=>{
+    try {
+      Swal.fire({
+        title: 'VENTA HECHA',
+        text: "¿Deseas entregar el producto?",
+        icon: 'success',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: '¡Sí, quiero entregar!',
+        cancelButtonText: 'No, lo hago después',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await dispatchOrder(orderId);
+          Swal.fire(
+            'VENTA HECHA Y ENTREGADO',
+            'La venta se realizó correctamente y se entregó',
+            'success'
+          )
+        } else {
+          Swal.fire(
+            'VENTA HECHA',
+            'La venta se realizó correctamente, pero aún no la entregaste',
+            'success'
+          )
+        }
+      });
     } catch (error: any) {
       Swal.fire('Oops ocurrió algo', error.response.data.errors[0].msg, 'error');
     }
@@ -237,10 +273,12 @@ export const useOrderStore = () => {
     getOrdersSold,
     getOrders,
     addOrder,
+    dispatchOrder,
     postCreateOrder,
     putUpdateOrderSold,
     putUpdateOrder,
     deleteOrder,
     getDocumentOrder,
+    removeOrderSocket,
   }
 }

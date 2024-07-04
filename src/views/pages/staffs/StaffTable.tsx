@@ -1,6 +1,6 @@
 import { ComponentSearch, ComponentTablePagination } from "@/components";
-import { useStaffStore } from "@/hooks";
-import { BranchOfficeModel, StaffModel } from "@/models";
+import { useAuthStore, useStaffStore } from "@/hooks";
+import { BranchOfficeModel, PermissionModel, RoleModel, StaffModel } from "@/models";
 import { applyPagination } from "@/utils/applyPagination";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { Checkbox, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
@@ -23,6 +23,7 @@ export const UserTable = (props: tableProps) => {
     items = [],
   } = props;
 
+  const { roleUser } = useAuthStore();
   const { staffs = [], getStaffs, deleteStaff } = useStaffStore();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(limitInit);
@@ -89,10 +90,12 @@ export const UserTable = (props: tableProps) => {
                         direction="row"
                         spacing={2}
                       >
-                        <IconButton onClick={() => handleEdit!(staff)} >
+                        <IconButton onClick={() => handleEdit!(staff)}
+                          disabled={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "editar administrador")} >
                           <EditOutlined color="info" />
                         </IconButton>
-                        <IconButton onClick={() => deleteStaff(staff.id)} >
+                        <IconButton onClick={() => deleteStaff(staff.id)}
+                          disabled={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "eliminar administrador")} >
                           <DeleteOutline color="error" />
                         </IconButton>
                       </Stack>

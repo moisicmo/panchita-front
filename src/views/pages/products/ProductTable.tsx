@@ -1,6 +1,6 @@
 import { ComponentSearch, ComponentTablePagination } from "@/components";
-import { useProductStore } from "@/hooks";
-import { ProductModel } from "@/models";
+import { useAuthStore, useProductStore } from "@/hooks";
+import { PermissionModel, ProductModel, RoleModel } from "@/models";
 import { applyPagination } from "@/utils/applyPagination";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { Checkbox, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
@@ -22,6 +22,7 @@ export const ProductTable = (props: tableProps) => {
     items = [],
   } = props;
 
+  const { roleUser } = useAuthStore();
   const { products = [], getProducts, deleteProduct } = useProductStore();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(limitInit);
@@ -34,8 +35,8 @@ export const ProductTable = (props: tableProps) => {
 
   useEffect(() => {
     const filtered = products.filter((e: ProductModel) =>
-      e.name.toLowerCase().includes(query.toLowerCase())||
-      e.code.toLowerCase().includes(query.toLowerCase())||
+      e.name.toLowerCase().includes(query.toLowerCase()) ||
+      e.code.toLowerCase().includes(query.toLowerCase()) ||
       e.category.name.toLowerCase().includes(query.toLowerCase())
     );
     const newList = applyPagination(
@@ -92,10 +93,12 @@ export const ProductTable = (props: tableProps) => {
                         direction="row"
                         spacing={2}
                       >
-                        <IconButton onClick={() => handleEdit!(product)} >
+                        <IconButton onClick={() => handleEdit!(product)}
+                          disabled={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "editar producto")} >
                           <EditOutlined color="info" />
                         </IconButton>
-                        <IconButton onClick={() => deleteProduct(product.id)} >
+                        <IconButton onClick={() => deleteProduct(product.id)}
+                          disabled={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "eliminar producto")} >
                           <DeleteOutline color="error" />
                         </IconButton>
                       </Stack>

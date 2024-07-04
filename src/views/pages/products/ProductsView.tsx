@@ -3,10 +3,12 @@ import { Stack, SvgIcon, Typography } from "@mui/material"
 import { useCallback, useState } from "react";
 import { CreateProduct, ProductTable } from ".";
 import { Add } from "@mui/icons-material";
-import { ProductModel } from "@/models";
+import { PermissionModel, ProductModel, RoleModel } from "@/models";
+import { useAuthStore } from "@/hooks";
 
 
 export const ProductsView = () => {
+  const { roleUser } = useAuthStore();
   const [openDialog, setopenDialog] = useState(false);
   const [itemEdit, setItemEdit] = useState<ProductModel | null>(null);
 
@@ -25,7 +27,8 @@ export const ProductsView = () => {
         <ComponentButton
           text="Nuevo Producto"
           onClick={() => handleDialog(true)}
-          startIcon={<SvgIcon fontSize="small"><Add /></SvgIcon>} />
+          startIcon={<SvgIcon fontSize="small"><Add /></SvgIcon>}
+          disable={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "crear producto")} />
       </Stack>
       <ProductTable
         handleEdit={(v) => {

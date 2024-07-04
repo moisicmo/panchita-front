@@ -1,6 +1,6 @@
 import { ComponentSearch, ComponentTablePagination } from "@/components";
-import { useBranchOfficeStore } from "@/hooks";
-import { BranchOfficeModel } from "@/models";
+import { useAuthStore, useBranchOfficeStore } from "@/hooks";
+import { BranchOfficeModel, PermissionModel, RoleModel } from "@/models";
 import { applyPagination } from "@/utils/applyPagination";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { Checkbox, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
@@ -24,6 +24,7 @@ export const BranchOfficeTable = (props: tableProps) => {
     items = [],
   } = props;
 
+  const { roleUser } = useAuthStore();
   const { branchOffices = [], getBranchOffices, deleteBranchOffice } = useBranchOfficeStore();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(limitInit);
@@ -88,10 +89,14 @@ export const BranchOfficeTable = (props: tableProps) => {
                         direction="row"
                         spacing={2}
                       >
-                        <IconButton onClick={() => handleEdit!(branchOffice)} >
+                        <IconButton onClick={() => handleEdit!(branchOffice)}
+                          disabled={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "editar sucursal")}
+
+                        >
                           <EditOutlined color="info" />
                         </IconButton>
-                        <IconButton onClick={() => deleteBranchOffice(branchOffice.id)} >
+                        <IconButton onClick={() => deleteBranchOffice(branchOffice.id)}
+                          disabled={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "eliminar sucursal")} >
                           <DeleteOutline color="error" />
                         </IconButton>
                       </Stack>

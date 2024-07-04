@@ -1,6 +1,6 @@
 import { ComponentSearch, ComponentTablePagination } from "@/components";
-import { useCustomerStore } from '@/hooks';
-import { CustomerModel } from "@/models";
+import { useAuthStore, useCustomerStore } from '@/hooks';
+import { CustomerModel, PermissionModel, RoleModel } from "@/models";
 import { applyPagination } from "@/utils/applyPagination";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { Checkbox, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
@@ -24,6 +24,7 @@ export const CustomerTable = (props: tableProps) => {
     items = [],
   } = props;
 
+  const { roleUser } = useAuthStore();
   const { customers = [], getCustomers, deleteCustomer } = useCustomerStore();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(limitInit);
@@ -94,10 +95,12 @@ export const CustomerTable = (props: tableProps) => {
                         direction="row"
                         spacing={2}
                       >
-                        <IconButton onClick={() => handleEdit!(customer)} >
+                        <IconButton onClick={() => handleEdit!(customer)}
+                          disabled={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "editar cliente")} >
                           <EditOutlined color="info" />
                         </IconButton>
-                        <IconButton onClick={() => deleteCustomer(customer.id)} >
+                        <IconButton onClick={() => deleteCustomer(customer.id)}
+                          disabled={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "eliminar cliente")} >
                           <DeleteOutline color="error" />
                         </IconButton>
                       </Stack>

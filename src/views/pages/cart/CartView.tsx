@@ -1,6 +1,6 @@
 import { ComponentButton } from "@/components";
-import { useCartStore, useOrderStore } from "@/hooks";
-import { OutputModel } from "@/models";
+import { useAuthStore, useCartStore, useOrderStore } from "@/hooks";
+import { OutputModel, PermissionModel, RoleModel } from "@/models";
 import { Stack, Typography } from "@mui/material";
 import { CardCart, DetailCart } from ".";
 import { useEffect, useState } from "react";
@@ -15,6 +15,7 @@ interface Output {
 }
 
 export const CartView = () => {
+  const { roleUser } = useAuthStore();
   const { cart = [], addCard,removeCard, branchOffice, customer } = useCartStore();
   // const { addCard, removeCard } = useCartStore();
   const [validate, setValidate] = useState(false);
@@ -94,10 +95,12 @@ export const CartView = () => {
           <Typography> {`${total} Bs.`} </Typography>
         </Stack>
         <DetailCart />
+
         <ComponentButton
+          sx={{ my: 1 }}
           text="CREAR ORDEN"
           onClick={() => createOrder()}
-          disable={validate} />
+          disable={validate ||!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "vender")} />
       </Stack>
     </>
   )

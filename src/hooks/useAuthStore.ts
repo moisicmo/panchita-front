@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { coffeApi } from "@/services";
-import { onLogin, onLogout } from "@/store";
+import { onLogin, onLogout, setRoleUser } from "@/store";
 
 export const useAuthStore = () => {
-  const { status, user } = useSelector((state: any) => state.auth);
+  const { status, user, roleUser } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
 
   const startLogin = async (body: object) => {
@@ -16,6 +16,8 @@ export const useAuthStore = () => {
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.staff))
       dispatch(onLogin(data.staff));
+      dispatch(setRoleUser({ role: data.staff.role }))
+      localStorage.setItem('role', JSON.stringify(data.staff.role));
     } catch (error: any) {
       dispatch(onLogout());
       Swal.fire('Oops ocurrio algo', error.response.data.errors[0].msg, 'error');
@@ -28,6 +30,8 @@ export const useAuthStore = () => {
     if (token) {
       const user = JSON.parse(localStorage.getItem('user')!);
       // console.log(user)
+      const role = JSON.parse(localStorage.getItem('role')!)
+      dispatch(setRoleUser({ role: role }));
       return dispatch(onLogin(user));
     } else {
       localStorage.clear();
@@ -46,6 +50,7 @@ export const useAuthStore = () => {
     //* Propiedades
     status,
     user,
+    roleUser,
 
     //* Métodos
     startLogin,

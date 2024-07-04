@@ -4,8 +4,10 @@ import { useCallback, useState } from "react";
 import { CreateRole, RoleTable, ShowPermisions } from ".";
 import { Add } from "@mui/icons-material";
 import { PermissionModel, RoleModel } from "@/models";
+import { useAuthStore } from "@/hooks";
 
 export const RolesView = () => {
+  const { roleUser } = useAuthStore();
   const [openDialog, setopenDialog] = useState(false);
   const [itemEdit, setItemEdit] = useState<RoleModel | null>(null);
   const [opendrawer, setOpendrawer] = useState<any>({ state: false, items: [] });
@@ -28,7 +30,9 @@ export const RolesView = () => {
         <ComponentButton
           text="Nuevo rol"
           onClick={() => handleDialog(true)}
-          startIcon={<SvgIcon fontSize="small"><Add /></SvgIcon>} />
+          startIcon={<SvgIcon fontSize="small"><Add /></SvgIcon>} 
+          disable={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "crear rol")}
+          />
       </Stack>
       <RoleTable
         handleEdit={(v) => {

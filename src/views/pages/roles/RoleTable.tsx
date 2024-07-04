@@ -1,5 +1,5 @@
 import { ComponentSearch, ComponentTablePagination } from "@/components";
-import { useRoleStore } from "@/hooks";
+import { useAuthStore, useRoleStore } from "@/hooks";
 import { PermissionModel, RoleModel } from "@/models";
 import { applyPagination } from "@/utils/applyPagination";
 import { DeleteOutline, EditOutlined, RemoveRedEyeOutlined } from "@mui/icons-material";
@@ -26,6 +26,7 @@ export const RoleTable = (props: tableProps) => {
     onViewPermisions,
   } = props;
 
+  const { roleUser } = useAuthStore();
   const { roles = [], getRoles, deleteRole } = useRoleStore();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(limitInit);
@@ -82,7 +83,7 @@ export const RoleTable = (props: tableProps) => {
                   {
                     !stateSelect && <TableCell>
                       <IconButton
-                        onClick={() => onViewPermisions!(role.permissionIds)}
+                        onClick={() => onViewPermisions!(role.permissions)}
                       >
                         <RemoveRedEyeOutlined color="info" />
                       </IconButton>
@@ -95,10 +96,15 @@ export const RoleTable = (props: tableProps) => {
                         direction="row"
                         spacing={2}
                       >
-                        <IconButton onClick={() => handleEdit!(role)} >
+                        <IconButton
+                          onClick={() => handleEdit!(role)}
+                          disabled={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "editar rol")}
+                        >
                           <EditOutlined color="info" />
                         </IconButton>
-                        <IconButton onClick={() => deleteRole(role.id)} >
+                        <IconButton
+                          onClick={() => deleteRole(role.id)}
+                          disabled={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "eliminar rol")} >
                           <DeleteOutline color="error" />
                         </IconButton>
                       </Stack>

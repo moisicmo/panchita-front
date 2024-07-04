@@ -2,10 +2,12 @@ import { ComponentButton } from "@/components"
 import { Stack, SvgIcon, Typography } from "@mui/material"
 import { useCallback, useState } from "react";
 import { Add } from "@mui/icons-material";
-import { CustomerModel } from "@/models";
+import { CustomerModel, PermissionModel, RoleModel } from "@/models";
 import { CreateCustomer, CustomerTable } from ".";
+import { useAuthStore } from "@/hooks";
 
 export const CustomersView = () => {
+  const { roleUser } = useAuthStore();
   const [openDialog, setopenDialog] = useState(false);
   const [itemEdit, setItemEdit] = useState<CustomerModel | null>(null);
 
@@ -24,7 +26,8 @@ export const CustomersView = () => {
         <ComponentButton
           text="Nuevo cliente"
           onClick={() => handleDialog(true)}
-          startIcon={<SvgIcon fontSize="small"><Add /></SvgIcon>} />
+          startIcon={<SvgIcon fontSize="small"><Add /></SvgIcon>}
+          disable={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "crear cliente")} />
       </Stack>
       <CustomerTable
         handleEdit={(v) => {

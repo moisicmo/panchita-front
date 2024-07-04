@@ -3,69 +3,65 @@
 # TAREAS
 
 ## SUCURSALES
-✅ listar sucursales
-✅ crear sucursal
-✅ editar sucursl
-✅ eliminar sucursal
+✅ ✅ listar sucursales
+✅ ✅ crear sucursal
+✅ ✅ editar sucursal
+✅ ✅ eliminar sucursal
 
 ## USUARIOS
-✅ listar usuarios
-✅ crear usuario
-✅ editar usuario
-✅ eliminar usuario
+✅ ✅ listar administradores
+✅ ✅ crear administrador
+✅ ✅ editar administrador
+✅ ✅ eliminar administrador
 
 ## ROLLES
-✅ listar roles
-✅ crear rol
-✅ editar rol
-✅ elimiminar rol
+✅ ✅ listar roles
+✅ ✅ crear rol
+✅ ✅ editar rol
+✅ ✅ eliminar rol
 
 ## PERMISOS
-✅ listar permisos
+✅ ✅ listar permisos
 
 ## CLIENTES
-✅ listar clientes
-✅ crear cliente
-✅ editar cliente
-✅ elimnar cliente
-
-## TIPOS DE DOCUMENTOS
-✅ listar tipos de documentos
+✅ ✅ listar clientes
+✅ ✅ crear cliente
+✅ ✅ editar cliente
+✅ ✅ elimnar cliente
 
 ## CATEGORIAS
-✅ listar categorias
-✅ crear categoria
-✅ editar categoria
-✅ eliminar categoria
+✅ ✅ crear categoria
+✅ ✅ editar categoria
+✅ ✅ eliminar categoria
 
 ## UNIDADES DE MEDIDA
-✅ listar unidades de medida
-✅ crear unidad de medida
-✅ editar unidad de medida
-✅ eliminar unidad de medida
+✅ ✅ crear unidad de medida
+✅ ✅ editar unidad de medida
+✅ ✅ eliminar unidad de medida
 
 ## PRODUCTOS
-✅ listar productos
-✅ crear producto
-✅ editar producto
-✅ eliminar producto
+✅ ✅ listar productos
+✅ ✅ crear producto
+✅ ✅ editar producto
+✅ ✅ eliminar producto
 
 ## MOVIMIENTOS
-✅ listar movimientos
-✅ crear producto (❕❕❕❕❕ revisar fecha de vencimiento)
+✅ ✅ listar movimientos
+✅ ✅ crear ingreso de productos
 
 ## PUNTO DE VENTA
-✅ venta
+✅ ✅ ver punto de venta
+✅ ✅ vender
 
 ## ORDENES Y VENTAS
-✅ listar de ordenes o ventas
-✅ vender una orden
-✅ descargar pdf
-✅ anular una venta o revertir una orden
+✅ ✅ listar de ordenes o ventas
+✅ ✅ editar una orden
+✅ ✅ descargar pdf
+✅ ✅ eliminar orden o venta
 
 ## ENTREGAS
-✅ mostrar entregas en tiempo real
-❌ hacer entrega de la orden
+✅ ✅ listar entregas en tiempo real
+✅ ✅ hacer entrega de la orden en tiempo real
 
 ## DASHBOARD
 ✅ tablero de cantidad de clientes
@@ -75,7 +71,16 @@
 ✅ tablero de cantidad de ventas
 
 ## REPORTES
-❌ no hay reportes
+❌ ✅  reportes
 
 ## FUNCIONALIDAD DE PERMISOS
-❌ no hay
+✅ definicion de permisos por cada funcionalidad
+
+## SUCURSAL ASIGNADO
+❌ datos segun el sucursal asignado por el usuario
+
+## RECUPERAR CONTRASEÑA
+❌ restablecer contraseña
+
+## PRIMER INICIO DE SESIÓN
+❌ solicitar al usuario cambiar la contraseña si es la primera vez que ingresa

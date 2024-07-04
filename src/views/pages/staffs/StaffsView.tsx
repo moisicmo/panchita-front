@@ -3,9 +3,12 @@ import { Stack, SvgIcon, Typography } from "@mui/material"
 import { useCallback, useState } from "react";
 import { CreateUser, UserTable } from ".";
 import { Add } from "@mui/icons-material";
+import { PermissionModel, RoleModel } from "@/models";
+import { useAuthStore } from "@/hooks";
 // import { StaffModel } from "@/models";
 
 export const UsersView = () => {
+  const { roleUser } = useAuthStore();
   const [openDialog, setopenDialog] = useState(false);
   const [itemEdit, setItemEdit] = useState<any>(null);
 
@@ -24,7 +27,8 @@ export const UsersView = () => {
         <ComponentButton
           text="Nuevo usuario"
           onClick={() => handleDialog(true)}
-          startIcon={<SvgIcon fontSize="small"><Add /></SvgIcon>} />
+          startIcon={<SvgIcon fontSize="small"><Add /></SvgIcon>} 
+          disable={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "crear administrador")}/>
       </Stack>
       <UserTable
         handleEdit={(v) => {

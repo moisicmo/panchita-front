@@ -1,6 +1,6 @@
 import { ComponentButton, ComponentSearch, ComponentTablePagination } from "@/components";
-import { useCategoryStore } from "@/hooks";
-import { CategoryModel } from "@/models";
+import { useAuthStore, useCategoryStore } from "@/hooks";
+import { CategoryModel, PermissionModel, RoleModel } from "@/models";
 import { applyPagination } from "@/utils/applyPagination";
 import { Checkbox, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
@@ -20,6 +20,7 @@ export const CategoryTable = (props: tableProps) => {
     items = [],
   } = props;
 
+  const { roleUser } = useAuthStore();
   const { categories = [], getCategories, deleteCategory } = useCategoryStore();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(limitInit);
@@ -63,6 +64,7 @@ export const CategoryTable = (props: tableProps) => {
         <ComponentButton
           text="Crear Categoria"
           onClick={() => handleDialog(true)}
+          disable={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "crear categoria")}
         />
       </Stack>
       <TableContainer>
@@ -95,10 +97,12 @@ export const CategoryTable = (props: tableProps) => {
                       <IconButton onClick={() => {
                         setItemEdit(category);
                         handleDialog(true);
-                      }} >
+                      }}
+                        disabled={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "editar categoria")}>
                         <EditOutlined color="info" />
                       </IconButton>
-                      <IconButton onClick={() => deleteCategory(category.id)} >
+                      <IconButton onClick={() => deleteCategory(category.id)}
+                        disabled={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "eliminar categoria")} >
                         <DeleteOutline color="error" />
                       </IconButton>
                     </Stack>

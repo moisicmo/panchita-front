@@ -54,7 +54,8 @@ export const CreateInputProduct = (props: createProps) => {
         detail,
         quantity,
         price,
-        dueDate
+        dueDate,
+        
       });
     handleClose();
     onResetForm();

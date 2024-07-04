@@ -3,9 +3,11 @@ import { Stack, SvgIcon, Typography } from "@mui/material"
 import { useCallback, useState } from "react";
 import { CreateBranchOffice, BranchOfficeTable } from ".";
 import { Add } from "@mui/icons-material";
-import { BranchOfficeModel } from "@/models";
+import { BranchOfficeModel, PermissionModel, RoleModel } from "@/models";
+import { useAuthStore } from "@/hooks";
 
 export const BranchOfficesView = () => {
+  const { roleUser } = useAuthStore();
   const [openDialog, setopenDialog] = useState(false);
   const [itemEdit, setItemEdit] = useState<BranchOfficeModel | null>(null);
 
@@ -24,7 +26,9 @@ export const BranchOfficesView = () => {
         <ComponentButton
           text="Nueva Sucursal"
           onClick={() => handleDialog(true)}
-          startIcon={<SvgIcon fontSize="small"><Add /></SvgIcon>} />
+          startIcon={<SvgIcon fontSize="small"><Add /></SvgIcon>} 
+          disable={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "crear sucursal")}
+          />
       </Stack>
       <BranchOfficeTable
         handleEdit={(v) => {

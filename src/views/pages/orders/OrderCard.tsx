@@ -1,18 +1,22 @@
 import { ComponentButton } from '@/components';
+import { useAuthStore, useOrderStore } from '@/hooks';
+import { OrderModel, PermissionModel, RoleModel } from '@/models';
 import { Card, CardContent, Stack, Typography } from '@mui/material';
 
 interface cardProps {
-  title: string;
+  order: OrderModel;
   children: any;
   sx: any;
-  value: any;
 }
 
 export const OrderCard = (props: cardProps) => {
+
+  const { roleUser } = useAuthStore();
+  const { dispatchOrder } = useOrderStore();
+
   const {
-    title,
+    order,
     sx,
-    value,
   } = props;
   return (
     <Card sx={sx}>
@@ -28,15 +32,17 @@ export const OrderCard = (props: cardProps) => {
               color="text.secondary"
               variant="overline"
             >
-              {title}
+
+              {order.customer.user.name}
             </Typography>
             <Typography variant="h4">
-              {value}
+              {`Pedido ${order.id}`}
             </Typography>
           </Stack>
           <ComponentButton
-          text="Entregar"
-          onClick={() => {}}/>
+            text="Entregar"
+            onClick={() => { dispatchOrder(order.id) }}
+            disable={!(roleUser as RoleModel).permissions.find((permission: PermissionModel) => permission.name === "hacer entrega")} />
         </Stack>
       </CardContent>
     </Card>

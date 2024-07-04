@@ -11,13 +11,16 @@ import { getEnvVariables } from "@/helpers";
 export const OrderView = () => {
   const { branchOffices = [], getBranchOffices } = useBranchOfficeStore();
   const [expanded, setExpanded] = useState<string | false>(false);
-  const { addOrder } = useOrderStore();
+  const { addOrder,removeOrderSocket } = useOrderStore();
   const { VITE_HOST_BACKEND } = getEnvVariables();
 
   useEffect(() => {
-    getBranchOffices()
+    getBranchOffices();
+  }, [])
+  
+  useEffect(() => {
     // Conectar al servidor Socket.IO
-    const socket = io(VITE_HOST_BACKEND); // Reemplaza con la URL de tu servidor Socket.IO
+    const socket = io(VITE_HOST_BACKEND);
 
     // Manejar eventos del socket aquí
     socket.on('connect', () => {
@@ -28,15 +31,24 @@ export const OrderView = () => {
     socket.on('disconnect', () => {
       console.log('Desconectado del servidor de Socket.IO');
     });
+
     // Escuchar el mensaje enviado desde el servidor
     socket.on('newOrder', (message) => {
       const newOrder = JSON.parse(message);
       addOrder(newOrder);
     });
+
+    socket.on('dispatchOrder', (orderId) => {
+      console.log('dispatch',orderId)
+      removeOrderSocket(orderId);
+    });
+
     return () => {
       socket.disconnect();
     };
+    
   }, []);
+
 
   const handleChange =
     (panel: string) => (_event: SyntheticEvent, isExpanded: boolean) => {
@@ -59,9 +71,12 @@ export const OrderView = () => {
                 <Typography>{`${branchOffice.name}`}</Typography>
               </AccordionSummary>
               <AccordionDetails>
+              {
+                (expanded === `${branchOffice.id}`) &&
                 <OrderByBranchOffice
                   branchOfficeId={branchOffice.id}
                 />
+              }
               </AccordionDetails>
             </Accordion>)
         })

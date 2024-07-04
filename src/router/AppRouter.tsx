@@ -10,16 +10,17 @@ import { PermissionsView } from '@/views/pages/permisions';
 import { RolesView } from '@/views/pages/roles';
 import { UsersView } from '@/views/pages/staffs';
 import { CustomersView } from '@/views/pages/customers';
-import { CustomerCreditsView } from '@/views/pages/customerCredits';
 import { ProductsView } from '@/views/pages/products';
 import { MovementsView } from '@/views/pages/movements';
 import { PointOfSaleView } from '@/views/pages/pointOfSale';
 import { SaleView } from '@/views/pages/sales';
 import { ReportView } from '@/views/pages/report';
 import { OrderView } from '@/views/pages/orders';
+import { PermissionModel } from '@/models';
 
 export const AppRouter = () => {
 
+  const { roleUser } = useAuthStore();
   const { status, checkAuthToken } = useAuthStore();
   useEffect(() => {
     checkAuthToken();
@@ -32,18 +33,54 @@ export const AppRouter = () => {
       <Layout>
         <Routes>
           <Route path='/dashboardView' element={<DashboardView />} />
-          <Route path='/BranchOfficesView' element={<BranchOfficesView />} />
-          <Route path='/permissionsView' element={<PermissionsView />} />
-          <Route path='/rolesView' element={<RolesView />} />
-          <Route path='/usersView' element={<UsersView />} />
-          <Route path='/customersView' element={<CustomersView />} />
-          <Route path='/customerCreditsView' element={<CustomerCreditsView />} />
-          <Route path='/productsView' element={<ProductsView />} />
-          <Route path='/movementsView' element={<MovementsView />} />
-          <Route path='/salesView' element={<SaleView />} />
-          <Route path='/ordersView' element={<OrderView />} />
-          <Route path='/pointSalesView' element={<PointOfSaleView />} />
-          <Route path='/reportView' element={<ReportView />} />
+          {
+            roleUser.permissions.find((permission: PermissionModel) => permission.name === "listar sucursales") &&
+            <Route path='/BranchOfficesView' element={<BranchOfficesView />} />
+          }
+          {
+            roleUser.permissions.find((permission: PermissionModel) => permission.name === "listar permisos") &&
+            <Route path='/permissionsView' element={<PermissionsView />} />
+          }
+          {
+            roleUser.permissions.find((permission: PermissionModel) => permission.name === "listar roles") &&
+            <Route path='/rolesView' element={<RolesView />} />
+          }
+          {
+            roleUser.permissions.find((permission: PermissionModel) => permission.name === "listar administradores") &&
+            <Route path='/usersView' element={<UsersView />} />
+          }
+          {
+            roleUser.permissions.find((permission: PermissionModel) => permission.name === "listar clientes") &&
+            <Route path='/customersView' element={<CustomersView />} />
+          }
+          {/* {
+            roleUser.permissions.find((permission: PermissionModel) => permission.name === "listar sucursales") &&
+            <Route path='/customerCreditsView' element={<CustomerCreditsView />} />
+          } */}
+          {
+            roleUser.permissions.find((permission: PermissionModel) => permission.name === "listar productos") &&
+            <Route path='/productsView' element={<ProductsView />} />
+          }
+          {
+            roleUser.permissions.find((permission: PermissionModel) => permission.name === "listar movimientos") &&
+            <Route path='/movementsView' element={<MovementsView />} />
+          }
+          {
+            roleUser.permissions.find((permission: PermissionModel) => permission.name === "listar ordenes y ventas") &&
+            <Route path='/salesView' element={<SaleView />} />
+          }
+          {
+            roleUser.permissions.find((permission: PermissionModel) => permission.name === "listar entregas") &&
+            <Route path='/ordersView' element={<OrderView />} />
+          }
+          {
+            roleUser.permissions.find((permission: PermissionModel) => permission.name === "ver punto de venta") &&
+            <Route path='/pointSalesView' element={<PointOfSaleView />} />
+          }
+          {
+            roleUser.permissions.find((permission: PermissionModel) => permission.name === "generar reportes") &&
+            <Route path='/reportView' element={<ReportView />} />
+          }
 
           {/*  */}
           <Route path="/*" element={<Navigate to={"/dashboardView"} />} />

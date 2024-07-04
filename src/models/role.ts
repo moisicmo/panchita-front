@@ -4,7 +4,7 @@ import { PermissionModel } from ".";
 export interface RoleModel {
   id: number;
   name: string;
-  permissionIds: PermissionModel[];
+  permissions: PermissionModel[];
 }
 
 /* FORM CUSTOMER MODEL */
