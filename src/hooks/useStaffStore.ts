@@ -27,6 +27,17 @@ export const useStaffStore = () => {
     }
   }
 
+  const resetPassword = async (staffId:number) => {
+    try {
+      console.log('RESTABLECIENDO CONTRASEÑA')
+      const { data } = await coffeApi.put(`/staff/reset/pwd/${staffId}`);
+      dispatch(setUpdatestaff({ staff: data.staff }));
+      Swal.fire('Contraseña reestablecida, su contraseña es el número de carnet', '', 'success');
+    } catch (error: any) {
+      Swal.fire('Oops ocurrio algo', error.response.data.errors[0].msg, 'error');
+    }
+  }
+
   const putUpdateStaff = async (id: string, body: object) => {
     try {
       const { data } = await coffeApi.put(`/staff/${id}`, body);
@@ -79,6 +90,7 @@ export const useStaffStore = () => {
     //* Métodos
     getStaffs,
     postCreateStaff,
+    resetPassword,
     putUpdateStaff,
     deleteStaff,
   }

@@ -10,11 +10,11 @@ export interface RoleModel {
 /* FORM CUSTOMER MODEL */
 export interface FormRoleModel {
   name: string;
-  permissionIds: PermissionModel[];
+  permissions: PermissionModel[];
 }
 
 /*FORM CUSTOMER MODEL VALIDATIONS */
 export interface FormRoleValidations {
   name: [(value: string) => boolean, string];
-  permissionIds: [(value: PermissionModel[]) => boolean, string];
+  permissions: [(value: PermissionModel[]) => boolean, string];
 }

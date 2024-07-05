@@ -40,7 +40,7 @@ export const CreateUser = (props: createProps) => {
     handleClose,
     item,
   } = props;
-  const { postCreateStaff, putUpdateStaff } = useStaffStore();
+  const { postCreateStaff, putUpdateStaff, resetPassword } = useStaffStore();
 
   const [formSubmitted, setFormSubmitted] = useState(false);
   const {
@@ -258,8 +258,12 @@ export const CreateUser = (props: createProps) => {
           <DialogActions>
             <Button onClick={() => {
               onResetForm();
-              handleClose()
+              handleClose();
             }}>Cancelar</Button>
+            {item !=null && JSON.parse(localStorage.getItem('superStaff')!) && <Button onClick={() => {
+              resetPassword(item.id);
+              handleClose();
+            }}>formatear contraseña</Button>}
             <Button type="submit">
               {item == null ? 'CREAR' : 'EDITAR'}
             </Button>

@@ -55,6 +55,12 @@ export const OrderView = () => {
       setExpanded(isExpanded ? panel : false);
     };
 
+    useEffect(() => {
+      if (branchOffices.length === 1) {
+        setExpanded(`${branchOffices[0].id}`);
+      }
+    }, [branchOffices]);
+
   return (
     <>
       <Typography variant="h6">Entregas</Typography>
@@ -62,10 +68,9 @@ export const OrderView = () => {
         branchOffices.map((branchOffice: BranchOfficeModel) => {
           return (
             <Accordion
-              key={`${branchOffice.id}`}
-              expanded={branchOffices.length == 1 ? true : expanded === `${branchOffice.id}`}
+              key={branchOffice.id}
+              expanded={expanded === `${branchOffice.id}`}
               onChange={handleChange(`${branchOffice.id}`)}
-              defaultExpanded={branchOffices.length > 0}
             >
               <AccordionSummary expandIcon={<ExpandMore />} >
                 <Typography>{`${branchOffice.name}`}</Typography>

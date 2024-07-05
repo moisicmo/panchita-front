@@ -18,8 +18,15 @@ export const SaleView = () => {
 
   const handleChange =
     (panel: string) => (_event: SyntheticEvent, isExpanded: boolean) => {
+      console.log('hola')
       setExpanded(isExpanded ? panel : false);
     };
+
+    useEffect(() => {
+      if (branchOffices.length === 1) {
+        setExpanded(`${branchOffices[0].id}`);
+      }
+    }, [branchOffices]);
 
   return (
     <>
@@ -28,24 +35,24 @@ export const SaleView = () => {
         branchOffices.map((branchOffice: BranchOfficeModel) => {
           return (
             <Accordion
-              key={`${branchOffice.id}`}
-              expanded={branchOffices.length == 1 ? true : expanded === `${branchOffice.id}`}
+              key={branchOffice.id}
+              expanded={expanded === `${branchOffice.id}`}
               onChange={handleChange(`${branchOffice.id}`)}
-              defaultExpanded={branchOffices.length > 0}
             >
               <AccordionSummary expandIcon={<ExpandMore />} >
-                <Typography>{`${branchOffice.name}`}</Typography>
+                <Typography>{branchOffice.name}</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 {
-                   (expanded === `${branchOffice.id}`) &&
+                  (expanded === `${branchOffice.id}`) &&
                   <SaleTable
                     branchOfficeId={branchOffice.id}
                     handleEdit={(order) => { setOrder(order) }}
                   />
                 }
               </AccordionDetails>
-            </Accordion>)
+            </Accordion>
+          );
         })
       }
       {

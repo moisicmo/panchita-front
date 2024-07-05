@@ -61,8 +61,9 @@ export const RoleTable = (props: tableProps) => {
         <Table sx={{ minWidth: 350 }} size="small">
           <TableHead>
             <TableRow sx={{ backgroundColor: '#E2F6F0' }}>
+              {stateSelect&&<TableCell sx={{ fontWeight: 'bold' }}></TableCell>}
               <TableCell sx={{ fontWeight: 'bold' }}>Nombre</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Permisos</TableCell>
+              {!stateSelect && <TableCell sx={{ fontWeight: 'bold' }}>Permisos</TableCell>}
               {!stateSelect && <TableCell sx={{ fontWeight: 'bold' }}>Acciones</TableCell>}
             </TableRow>
           </TableHead>

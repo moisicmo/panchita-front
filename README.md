@@ -77,10 +77,10 @@
 ✅ definicion de permisos por cada funcionalidad
 
 ## SUCURSAL ASIGNADO
-❌ datos segun el sucursal asignado por el usuario
+✅ datos segun el sucursal asignado por el usuario
 
 ## RECUPERAR CONTRASEÑA
-❌ restablecer contraseña
+✅ restablecer contraseña si es superstaff
 
 ## PRIMER INICIO DE SESIÓN
 ❌ solicitar al usuario cambiar la contraseña si es la primera vez que ingresa

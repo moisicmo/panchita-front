@@ -18,6 +18,7 @@ export const useAuthStore = () => {
       dispatch(onLogin(data.staff));
       dispatch(setRoleUser({ role: data.staff.role }))
       localStorage.setItem('role', JSON.stringify(data.staff.role));
+      localStorage.setItem('superStaff', JSON.stringify(data.staff.superStaff));
     } catch (error: any) {
       dispatch(onLogout());
       Swal.fire('Oops ocurrio algo', error.response.data.errors[0].msg, 'error');
