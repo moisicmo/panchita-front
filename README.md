@@ -71,7 +71,7 @@
 ✅ tablero de cantidad de ventas
 
 ## REPORTES
-❌ ✅  reportes
+✅ ✅  reportes
 
 ## FUNCIONALIDAD DE PERMISOS
 ✅ definicion de permisos por cada funcionalidad
@@ -83,4 +83,4 @@
 ✅ restablecer contraseña si es superstaff
 
 ## PRIMER INICIO DE SESIÓN
-❌ solicitar al usuario cambiar la contraseña si es la primera vez que ingresa
+✅ solicitar al usuario cambiar la contraseña si es la primera vez que ingresa

@@ -5,8 +5,8 @@ import { useAuthStore, useForm } from '@/hooks';
 import { ComponentButton, ComponentInput } from '@/components';
 
 const loginFormFields = {
-  email: '',
-  password: '',
+  email: 'moisic.mo@gmail.com',
+  password: '8312915',
 }
 const formValidations = {
   email: [(value: any) => value.length >= 1, 'Debe ingresar su cuenta'],

@@ -83,15 +83,16 @@ export const CreateUser = (props: createProps) => {
   }
 
   const [modalRole, setModalRole] = useState(false);
-  const [modalWarehouse, setModalWarehouse] = useState(false);
-  const [modalTypeDocument, setModalTypeDocument] = useState(false);
   const handleModalRole = useCallback((value: boolean) => {
     setModalRole(value);
   }, []);
-
+  
+  const [modalWarehouse, setModalWarehouse] = useState(false);
   const handleModalWarehouse = useCallback((value: boolean) => {
     setModalWarehouse(value);
   }, []);
+  
+  const [modalTypeDocument, setModalTypeDocument] = useState(false);
   const handleModalTypeDocument = useCallback((value: boolean) => {
     setModalTypeDocument(value);
   }, []);

@@ -16,14 +16,14 @@ export const useReportStore = () => {
   }
 
   const getReport = async (body: object) => {
-    console.log('OBTENIENDO TRATAMIENTOS PARA REPORTE');
+    console.log('OBTENIENDO ORDENES PARA REPORTE');
     const { data } = await coffeApi.post('/report', body);
     console.log(data);
-    dispatch(setReportdata({ reportData: data.treatments }));
+    dispatch(setReportdata({ reportData: data.orders }));
   }
 
   const getReportXlsx = async (body: object) => {
-    console.log('OBTENIENDO TRATAMIENTOS EN XLSX');
+    console.log('OBTENIENDO ORDENES EN XLSX');
     const { data } = await coffeApi.post('/report/xlsx', body);
     console.log(data);
 
