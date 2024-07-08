@@ -3,6 +3,7 @@ import { Grid, IconButton, Typography } from "@mui/material"
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useAuthStore, useForm } from '@/hooks';
 import { ComponentButton, ComponentInput } from '@/components';
+import logo from '@/assets/images/logo.png';
 
 const loginFormFields = {
   email: '',
@@ -17,7 +18,7 @@ export const AuthPage = () => {
   const { startLogin } = useAuthStore();
 
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const { email, password, onInputChange, isFormValid, emailValid, passwordValid, } = useForm(loginFormFields, formValidations);
+  const { email, password, onInputChange, isFormValid, emailValid, passwordValid } = useForm(loginFormFields, formValidations);
 
 
 
@@ -34,12 +35,13 @@ export const AuthPage = () => {
   };
 
   return (
-    <Grid container justifyContent="center" alignItems="center" style={{ height: '100vh' }}>
+    <Grid container justifyContent="center" alignItems="center" style={{ height: '100vh', background: '#e60024' }}>
       <Grid item xs={12} sm={6} container justifyContent="center" alignItems="center">
-        {/* <img src={imagelogo} alt="Descripción de la imagen" style={{ maxHeight: '80%', maxWidth: '80%' }} /> */}
+        <img src={logo} alt="Descripción de la imagen" style={{ maxWidth: '35vw' }} />
       </Grid>
       <Grid item xs={12} sm={6} container justifyContent="center" alignItems="center" style={{ display: 'flex', flexDirection: 'column' }}>
-        <Typography>SUPER BALANCE</Typography>
+        <Typography style={{ color: 'white', fontWeight: 700, fontSize: 17 }} >ADMINISTRACIÓN</Typography>
+        <div style={{ height: 10 }} />
         <form onSubmit={loginSubmit}>
           <ComponentInput
             type="email"
@@ -49,7 +51,29 @@ export const AuthPage = () => {
             onChange={onInputChange}
             error={!!emailValid && formSubmitted}
             helperText={formSubmitted ? emailValid : ''}
+            sx={{
+              '& label.Mui-focused': {
+                color: 'white',
+              },
+              '& label:not(.Mui-focused)': {
+                color: 'white', // Cambia el color del texto del Label a negro cuando no está enfocado
+              },
+              '& .MuiOutlinedInput-root': {
+                borderRadius: '10px',
+                height: 'fit-content',
+                '& fieldset': { borderColor: 'white' },
+              },
+            }}
+            inputsx={{
+              style: {
+                color: 'white',
+                height: '50px',
+                borderColor: 'white'
+                
+              },
+            }}
           />
+          <div style={{ height: 10 }} />
           <ComponentInput
             type={showPassword ? 'text' : 'password'}
             label="Contraseña"
@@ -63,8 +87,31 @@ export const AuthPage = () => {
             )}
             error={!!passwordValid && formSubmitted}
             helperText={formSubmitted ? passwordValid : ''}
+            sx={{
+              '& label.Mui-focused': {
+                color: 'white',
+              },
+              '& label:not(.Mui-focused)': {
+                color: 'white', // Cambia el color del texto del Label a negro cuando no está enfocado
+              },
+              '& .MuiOutlinedInput-root': {
+                borderRadius: '10px',
+                height: 'fit-content',
+                '& fieldset': { borderColor: 'white' },
+              },
+              
+            }}
+            inputsx={{
+              style: {
+                color: 'white',
+                height: '50px',
+                borderColor: 'white'
+                
+              },
+            }}
           />
-          <ComponentButton type="submit" text="INGRESAR" width="100%" />
+          <div style={{ height: 10 }} />
+          <ComponentButton type="submit" text="INGRESAR" width="100%" sx={{ background: '#F2F2F2', color: 'red' }} />
         </form>
       </Grid>
     </Grid >

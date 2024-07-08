@@ -30,13 +30,15 @@ export const CardCart = (props: cartProps) => {
             variant="outlined"
             maxWidth="36px"
             minWidth="36px"
+            sx={{ color: "white" }}
             onClick={() => addItem()}
             startIcon={<SvgIcon fontSize="small"><Add /></SvgIcon>} />
           <Typography sx={{ px: 1 }} >{output.quantity}</Typography>
           <ComponentButton
-            variant="outlined"
+            variant="error"
             maxWidth="36px"
             minWidth="36px"
+            sx={{ color: "white" }}
             onClick={() => removeItem()}
             startIcon={<SvgIcon fontSize="small"><Remove /></SvgIcon>} />
         </Stack>

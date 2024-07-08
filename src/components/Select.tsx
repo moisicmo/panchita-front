@@ -6,7 +6,6 @@ interface elementsProps {
   title: string;
   onPressed: any;
   items?: any;
-  color?: any;
   onRemove?: (value: number) => void;
   error?: boolean;
   helperText?: string;
@@ -18,7 +17,6 @@ export const ComponentSelect = React.memo((props: elementsProps) => {
     title,
     onPressed,
     items = [],
-    color,
     onRemove,
     error = false,
     helperText,
@@ -41,6 +39,7 @@ export const ComponentSelect = React.memo((props: elementsProps) => {
           {label}
         </span>
         <Button
+          color="error"
           variant="outlined"
           onClick={onPressed}
           style={{
@@ -48,11 +47,11 @@ export const ComponentSelect = React.memo((props: elementsProps) => {
             paddingTop: '10px',
             paddingBottom: '10px',
             color: 'black',
+            backgroundColor: 'transparent',
             borderColor: error ? 'red' : 'black',
             textTransform: 'none',
             zIndex: 0,
-            backgroundColor: color,
-            fontSize:16
+            fontSize:16,
           }}
         >
           {title}

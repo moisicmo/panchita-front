@@ -40,7 +40,7 @@ export const CreateProduct = (props: createProps) => {
   const {
     name, price, discount, typeDiscount, category, measurementUnit,
     onInputChange, isFormValid, onResetForm, onValueChange,
-    nameValid, priceValid, categoryIdValid, measurementUnitIdValid,
+    nameValid, priceValid, categoryValid, measurementUnitValid,
   } = useForm(item ?? formFields, formValidations);
 
 
@@ -157,6 +157,24 @@ export const CreateProduct = (props: createProps) => {
                 />
               </Grid>
               <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+                <ComponentSelect
+                  label={category != null ? 'Categoria' : ''}
+                  title={category != null ? category.name : 'Categoria'}
+                  onPressed={() => handleModalCategory(true)}
+                  error={!!categoryValid && formSubmitted}
+                  helperText={formSubmitted ? categoryValid : ''}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
+                <ComponentSelect
+                  label={measurementUnit != null ? 'Unidad de medida' : ''}
+                  title={measurementUnit != null ? measurementUnit.name : 'Unidad de medida'}
+                  onPressed={() => handleModalMeasurementUnit(true)}
+                  error={!!measurementUnitValid && formSubmitted}
+                  helperText={formSubmitted ? measurementUnitValid : ''}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
                 <ComponentInput
                   type="text"
                   label="Descuento"
@@ -182,29 +200,12 @@ export const CreateProduct = (props: createProps) => {
                   <Typography>Porcentaje</Typography>
                 </Stack>
               </Grid>
-              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
-                <ComponentSelect
-                  label={category != null ? 'Categoria' : ''}
-                  title={category != null ? category.name : 'Categoria'}
-                  onPressed={() => handleModalCategory(true)}
-                  error={!!categoryIdValid && formSubmitted}
-                  helperText={formSubmitted ? categoryIdValid : ''}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6} sx={{ padding: '5px' }}>
-                <ComponentSelect
-                  label={measurementUnit != null ? 'Unidad de medida' : ''}
-                  title={measurementUnit != null ? measurementUnit.name : 'Unidad de medida'}
-                  onPressed={() => handleModalMeasurementUnit(true)}
-                  error={!!measurementUnitIdValid && formSubmitted}
-                  helperText={formSubmitted ? measurementUnitIdValid : ''}
-                />
-              </Grid>
             </Grid>
 
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => {
+            <Button 
+            onClick={() => {
               onResetForm();
               handleClose()
             }}>Cancelar</Button>

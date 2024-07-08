@@ -84,3 +84,7 @@
 
 ## PRIMER INICIO DE SESIÓN
 ✅ solicitar al usuario cambiar la contraseña si es la primera vez que ingresa
+
+## ENVIAR COMPROVANTE PDF AL DRIVE
+❌ drive
+❌ outlook box

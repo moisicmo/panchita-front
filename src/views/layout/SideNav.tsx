@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { SideNavItem } from '@/components';
 import { menu } from '@/utils/menu';
-// import logo from '@/assets/images/muserpol-logo.png';
+import logo from '@/assets/images/logo.png';
 
 export const SideNav = ({ open, onClose }: { open: boolean, onClose: any }) => {
 
@@ -27,14 +27,15 @@ export const SideNav = ({ open, onClose }: { open: boolean, onClose: any }) => {
           py: 3
         }}
       >
-        {/* <img src={logo} alt="logo" style={{ objectFit: 'cover' }} /> */}
+        <img src={logo} alt="logo" style={{ objectFit: 'cover' }} />
+        <div style={{ height: 10 }} />
         {menu().map((item) => (
           <Box
             key={item.title}
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              height: '100%'
+              height: '100%',
             }}
           >
             {
@@ -82,7 +83,7 @@ export const SideNav = ({ open, onClose }: { open: boolean, onClose: any }) => {
         open
         PaperProps={{
           sx: {
-            backgroundColor: '#1E1F28',
+            backgroundColor: '#e60024',
             color: 'white',
             width: 190
           }
@@ -101,7 +102,7 @@ export const SideNav = ({ open, onClose }: { open: boolean, onClose: any }) => {
       open={open}
       PaperProps={{
         sx: {
-          backgroundColor: '#1E1F28',
+          backgroundColor: '#e60024',
           color: 'white',
           width: 190
         }

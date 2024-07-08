@@ -59,7 +59,7 @@ export const Layout = ({ children }: { children: any }) => {
           <CartView/>
         </CartDrawer>
       <LayoutRoot>
-        <LayoutContainer>
+        <LayoutContainer sx={{m:"8px"}}>
           {children}
         </LayoutContainer>
       </LayoutRoot>

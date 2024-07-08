@@ -45,7 +45,7 @@ export const TypeDocumentTable = (props: tableProps) => {
       <TableContainer>
         <Table sx={{ minWidth: 350 }} size="small">
           <TableHead>
-            <TableRow sx={{ backgroundColor: '#E2F6F0' }}>
+            <TableRow sx={{ backgroundColor: '#ffe8e9' }}>
               <TableCell sx={{ fontWeight: 'bold' }}></TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Nombre</TableCell>
             </TableRow>

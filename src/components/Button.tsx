@@ -10,7 +10,6 @@ interface buttonProps {
   height?: any,
   disable?: boolean,
   variant?: any,
-
   maxWidth?: any,
   minWidth?: any,
   sx?:any
@@ -41,6 +40,7 @@ export const ComponentButton = (props: buttonProps) => {
       startIcon={text == null ? null : startIcon}
       onClick={onClick}
       sx={{
+        background:"#e60024",
         fontWeight: 'bold',
         margin: { margin },
         width: { width },

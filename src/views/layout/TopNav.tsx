@@ -28,12 +28,7 @@ export const TopNav = (({ onNavOpen, onTapBadge }: { onNavOpen: any, onTapBadge:
       <Box
         component="header"
         sx={{
-          backdropFilter: 'blur(6px)',
-          backgroundColor: () => 'transparent',
           position: 'sticky',
-          // left: {
-          //   lg: `${SIDE_NAV_WIDTH}px`
-          // },
           top: 0,
           width: {
             lg: `calc(100%)`
@@ -69,7 +64,7 @@ export const TopNav = (({ onNavOpen, onTapBadge }: { onNavOpen: any, onTapBadge:
             <IconButton onClick={()=>onTapBadge()} aria-label="cart" >
               <Badge
                 badgeContent={cart.length}
-                color="primary"
+                color="error"
                 overlap="circular"
                 sx={{ "& .MuiBadge-badge": { fontSize: 9, height: 15, minWidth: 15 } }}
               >
